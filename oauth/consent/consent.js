@@ -342,6 +342,7 @@
     loginButton.textContent = creating ? "Créer mon compte" : "Se connecter";
     modeToggle.textContent = creating ? "J’ai déjà un compte" : "Créer un compte Aurore ID";
     $("login-password").autocomplete = creating ? "new-password" : "current-password";
+    $("login-password").minLength = creating ? 8 : 1;
     $("login-password").value = "";
     clearNotice();
   }
