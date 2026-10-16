@@ -167,6 +167,30 @@
     .dialog-content p { color: var(--muted); font-size: 13px; line-height: 1.8; }
     .dialog-note { display: flex; align-items: flex-start; gap: 10px; padding: 13px; border-radius: 14px; background: #f1f3f8; color: #535e73; font-size: 11px; line-height: 1.6; }
     .dialog-actions { display: flex; justify-content: flex-end; margin-top: 22px; }
+
+    .account-content { padding: 26px; }
+    .account-content h2 { margin: 14px 0 8px; font-size: 27px; }
+    .account-copy { color: var(--muted); font-size: 13px; line-height: 1.7; margin: 0 0 18px; }
+    .account-tabs { display: flex; gap: 7px; padding: 5px; border-radius: 14px; background: #f1f3f8; margin: 0 0 18px; }
+    .account-tab { flex: 1; min-height: 40px; border: 0; border-radius: 10px; background: transparent; color: #667086; font-size: 12px; font-weight: 800; cursor: pointer; }
+    .account-tab[aria-selected="true"] { background: white; color: var(--ink); box-shadow: 0 2px 9px rgba(23,32,51,.08); }
+    .account-field { display: grid; gap: 7px; margin: 12px 0; }
+    .account-field label { font-size: 12px; font-weight: 800; color: #3d465a; }
+    .account-field input { display: block; width: 100%; min-height: 47px; padding: 11px 13px; border: 1px solid #dfe3ed; border-radius: 12px; background: white; color: var(--ink); font: inherit; font-size: 14px; }
+    .account-field input:focus { outline: 3px solid #c9bdff66; border-color: #8d83d6; }
+    .services-choice { display: grid; gap: 8px; margin: 19px 0 14px; }
+    .services-choice-title { margin: 0 0 3px; font-size: 12px; font-weight: 850; }
+    .service-choice { display: flex; align-items: flex-start; gap: 11px; padding: 12px; border: 1px solid var(--line); border-radius: 13px; background: #fff; cursor: pointer; }
+    .service-choice:has(input:checked) { border-color: #9bbd87; background: #f7fbf3; }
+    .service-choice input { width: 18px; height: 18px; margin: 2px 0 0; accent-color: #426d35; flex: 0 0 18px; }
+    .service-choice strong { display: block; font-size: 12px; }
+    .service-choice small { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+    .account-submit { width: 100%; margin-top: 8px; }
+    .account-message { display: none; margin: 14px 0 0; border-radius: 12px; padding: 12px 13px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; background: #fdf0f2; border: 1px solid #f4cdd4; color: #a12842; }
+    .account-message.ok { background: #eff8f1; border-color: #cee9d5; color: #205e38; }
+    .account-footnote { margin: 15px 0 0; color: #7b8495; font-size: 10px; line-height: 1.65; }
+    .account-link { display: inline-block; margin-top: 12px; border: 0; padding: 0; background: none; color: #55538e; font-size: 12px; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+
     @media (max-width: 1040px) {
       .hero-grid { gap: 28px; grid-template-columns: minmax(0,1fr) minmax(310px,.9fr); }
       .hero-art { transform: scale(.94); }
@@ -248,7 +272,7 @@
         <a href="#securite">Confiance & sécurité</a>
       </nav>
       <div class="nav-actions">
-        <button class="btn btn-dark" type="button" data-open-login>Connexion <span class="btn-arrow" aria-hidden="true">↗</span></button>
+        <button class="btn btn-dark" type="button" data-open-login>Compte Aurore ID <span class="btn-arrow" aria-hidden="true">↗</span></button>
         <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
           <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         </button>
@@ -265,7 +289,7 @@
           <p class="hero-copy">Les ressources, l’apprentissage, les idées et la création se retrouvent ici. <strong>Aurore ID devient progressivement le point d’entrée commun</strong> de tes services éducatifs — avec une expérience plus claire, plus cohérente et conçue pour durer.</p>
           <div class="hero-actions">
             <a class="btn btn-light" href="#services">Découvrir les services <span class="btn-arrow" aria-hidden="true" style="background:rgba(16,23,41,.08)">↓</span></a>
-            <button class="btn btn-outline" type="button" data-open-login style="color:white;border-color:rgba(255,255,255,.2)">Connexion centrale <span aria-hidden="true">↗</span></button>
+            <button class="btn btn-outline" type="button" data-open-login style="color:white;border-color:rgba(255,255,255,.2)">Créer mon compte <span aria-hidden="true">↗</span></button>
           </div>
           <div class="hero-trust"><span class="trust-icon" aria-hidden="true">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg>
@@ -350,11 +374,11 @@
 
     <section class="content-section" id="securite" style="padding-top:12px">
       <div class="wrap security">
-        <div class="security-copy"><p class="section-kicker">Confiance & sécurité</p><h2>Construire la confiance, étape après étape.</h2><p>Un portail d’identité touche à ce qu’il y a de plus important : l’accès aux comptes. Nous préférons activer chaque fonction après l’avoir vérifiée plutôt que de présenter une connexion qui ne serait pas prête.</p><div class="status-line"><span aria-hidden="true"></span> Connexion centrale : préparation en cours</div></div>
+        <div class="security-copy"><p class="section-kicker">Confiance & sécurité</p><h2>Construire la confiance, étape après étape.</h2><p>Aurore ID permet de créer une identité centrale et d’enregistrer les espaces que tu souhaites relier. Le raccordement SSO reste progressif : les comptes locaux, les rôles et les données ne sont pas fusionnés automatiquement.</p><div class="status-line"><span aria-hidden="true"></span> Compte central et choix des espaces disponibles · SSO progressif</div></div>
         <div class="security-list">
           <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg><h3>Les comptes sont préservés</h3><p>Cette page ne modifie ni les comptes ni les sessions des services existants.</p></article>
-          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg><h3>Pas de faux écran de connexion</h3><p>La connexion centrale reste inactive tant que son intégration n’est pas prête et vérifiée.</p></article>
-          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16M4 10h10M4 15h16M4 20h10"/></svg><h3>Chaque service garde ses données</h3><p>Le portail ne collecte aucune donnée de compte dans cette première version.</p></article>
+          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg><h3>Connexion transparente</h3><p>Créer un compte central ne remplace pas encore les connexions locales de chaque service.</p></article>
+          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16M4 10h10M4 15h16M4 20h10"/></svg><h3>Préférences de services</h3><p>Les espaces choisis sont conservés sur le compte central, sans modifier les rôles locaux.</p></article>
           <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg><h3>Une transition progressive</h3><p>Le parcours sera d’abord testé avant toute redirection des utilisateurs.</p></article>
         </div>
       </div>
@@ -369,19 +393,121 @@
   </footer>
 
   <dialog id="login-dialog" aria-labelledby="dialog-title">
-    <div class="dialog-content">
+    <div class="account-content">
       <div class="dialog-symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg></div>
-      <h2 id="dialog-title">La connexion centrale se prépare.</h2>
-      <p>Aurore ID est en cours de mise en place. La connexion Google centralisée sera activée seulement après les vérifications nécessaires sur les comptes et les redirections.</p>
-      <div class="dialog-note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:1px"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg><span>Pour le moment, tes comptes et les connexions actuelles restent inchangés. Tu peux continuer à ouvrir chaque service depuis les cartes ci-dessus.</span></div>
-      <div class="dialog-actions"><button class="btn btn-dark" id="close-dialog" type="button">J’ai compris</button></div>
+      <h2 id="dialog-title">Crée ton compte Aurore ID</h2>
+      <p class="account-copy" id="account-copy">Un compte central pour ton identité Aurore. Choisis les espaces que tu souhaites relier à ce compte.</p>
+      <div class="account-tabs" role="tablist" aria-label="Mode du compte">
+        <button class="account-tab" id="account-tab-signup" type="button" role="tab" aria-selected="true">Créer un compte</button>
+        <button class="account-tab" id="account-tab-login" type="button" role="tab" aria-selected="false">J’ai déjà un compte</button>
+      </div>
+      <form id="account-form">
+        <div class="account-field">
+          <label for="account-email">Adresse e-mail</label>
+          <input id="account-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="vous@exemple.com">
+        </div>
+        <div class="account-field">
+          <label for="account-password">Mot de passe</label>
+          <input id="account-password" name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="128" placeholder="Au moins 8 caractères">
+        </div>
+        <div class="account-field" id="account-password-confirm-wrap">
+          <label for="account-password-confirm">Confirmer le mot de passe</label>
+          <input id="account-password-confirm" name="password-confirm" type="password" autocomplete="new-password" required minlength="8" maxlength="128" placeholder="Répète le mot de passe">
+        </div>
+        <div class="services-choice">
+          <p class="services-choice-title">Quels espaces souhaites-tu relier à ton compte ?</p>
+          <label class="service-choice"><input type="checkbox" name="aurore-service" value="archives"><span><strong>Section Archives</strong><small>Cours, documents et ressources scolaires</small></span></label>
+          <label class="service-choice"><input type="checkbox" name="aurore-service" value="instituts"><span><strong>Aurore Instituts</strong><small>Parcours et ressources d’apprentissage</small></span></label>
+          <label class="service-choice"><input type="checkbox" name="aurore-service" value="memoire"><span><strong>Aurore Mémoire</strong><small>Cartes de révision et séries de questions</small></span></label>
+          <label class="service-choice"><input type="checkbox" name="aurore-service" value="animation"><span><strong>Aurore Animation</strong><small>Création de personnages et de scènes</small></span></label>
+        </div>
+        <button class="btn btn-dark account-submit" id="account-submit" type="submit">Créer mon compte central</button>
+        <button class="account-link" id="account-forgot" type="button" style="display:none">Mot de passe oublié ?</button>
+        <p class="account-message" id="account-message" role="status" aria-live="polite"></p>
+      </form>
+      <p class="account-footnote">Tes choix sont enregistrés dans les préférences de ton compte Aurore ID. Cette étape ne fusionne pas automatiquement les comptes existants et n’accorde pas de rôle dans un service. Le raccordement de la connexion unique est vérifié service par service ; les connexions actuelles restent disponibles pendant cette transition.</p>
+      <div class="dialog-actions"><button class="btn btn-outline" id="close-dialog" type="button">Fermer</button></div>
     </div>
   </dialog>
 
   <script>
+    const AURORE_AUTH_URL = "https://woyzakzpqtzwjiyysuum.supabase.co";
+    const AURORE_AUTH_KEY = "sb_publishable_QAwjkgFLLx1v6DkESJ-d6g_GHHCQiUm";
+    const AURORE_HOME = "https://aurore-id.vercel.app/";
+    const AURORE_RECOVERY_REDIRECT = "https://aurore-id.vercel.app/oauth/consent/";
     const menuButton = document.querySelector('.menu-toggle');
     const navLinks = document.getElementById('nav-links');
     const loginDialog = document.getElementById('login-dialog');
+    const accountForm = document.getElementById('account-form');
+    const accountEmail = document.getElementById('account-email');
+    const accountPassword = document.getElementById('account-password');
+    const accountPasswordConfirm = document.getElementById('account-password-confirm');
+    const accountConfirmWrap = document.getElementById('account-password-confirm-wrap');
+    const accountMessage = document.getElementById('account-message');
+    const accountSubmit = document.getElementById('account-submit');
+    const accountCopy = document.getElementById('account-copy');
+    const accountForgot = document.getElementById('account-forgot');
+    let accountMode = 'signup';
+    let accountBusy = false;
+
+    function setAccountMessage(message, good) {
+      accountMessage.textContent = String(message || '');
+      accountMessage.className = good ? 'account-message ok' : 'account-message';
+      accountMessage.style.display = 'block';
+    }
+    function clearAccountMessage() {
+      accountMessage.textContent = '';
+      accountMessage.style.display = 'none';
+      accountMessage.className = 'account-message';
+    }
+    function selectedAuroreServices() {
+      return Array.from(document.querySelectorAll('input[name="aurore-service"]:checked')).map(input => input.value);
+    }
+    function setAccountMode(mode) {
+      accountMode = mode === 'login' ? 'login' : 'signup';
+      const creating = accountMode === 'signup';
+      document.getElementById('account-tab-signup').setAttribute('aria-selected', String(creating));
+      document.getElementById('account-tab-login').setAttribute('aria-selected', String(!creating));
+      document.getElementById('dialog-title').textContent = creating ? 'Crée ton compte Aurore ID' : 'Connecte-toi à Aurore ID';
+      accountCopy.textContent = creating
+        ? 'Un compte central pour ton identité Aurore. Choisis les espaces que tu souhaites relier à ce compte.'
+        : 'Connecte-toi avec ton compte central et enregistre les espaces que tu souhaites relier.';
+      accountPassword.autocomplete = creating ? 'new-password' : 'current-password';
+      accountPassword.minLength = creating ? 8 : 1;
+      accountConfirmWrap.style.display = creating ? 'grid' : 'none';
+      accountPasswordConfirm.required = creating;
+      accountForgot.style.display = creating ? 'none' : 'inline-block';
+      accountSubmit.textContent = creating ? 'Créer mon compte central' : 'Se connecter et enregistrer mes choix';
+      clearAccountMessage();
+    }
+    async function authRequest(path, body, accessToken) {
+      const headers = { 'apikey': AURORE_AUTH_KEY, 'Content-Type': 'application/json' };
+      if (accessToken) headers.Authorization = 'Bearer ' + accessToken;
+      const response = await fetch(AURORE_AUTH_URL + path, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body)
+      });
+      let data = {};
+      try { data = await response.json(); } catch (_) {}
+      if (!response.ok) {
+        const err = new Error(String(data.msg || data.message || data.error_description || data.error || 'La demande n’a pas abouti.'));
+        err.status = response.status;
+        err.code = data.error_code || data.code || '';
+        throw err;
+      }
+      return data;
+    }
+    function friendlyAuthError(error, creating) {
+      const message = String(error && (error.message || error.code) || '').toLowerCase();
+      if (message.includes('invalid login credentials')) return 'Adresse e-mail ou mot de passe incorrect.';
+      if (message.includes('email not confirmed')) return 'Confirme d’abord ton adresse e-mail avec le message reçu.';
+      if (message.includes('already registered') || message.includes('already been registered')) return 'Un compte semble déjà exister avec cette adresse. Choisis « J’ai déjà un compte » pour te connecter.';
+      if (message.includes('password should be at least') || message.includes('password is too short')) return 'Le mot de passe doit contenir au moins 8 caractères.';
+      if (message.includes('email rate limit') || message.includes('too many requests')) return 'Trop de demandes ont été envoyées. Attends quelques minutes avant de réessayer.';
+      if (message.includes('fetch') || message.includes('network')) return 'Le service de compte est momentanément inaccessible. Vérifie ta connexion puis réessaie.';
+      return creating ? 'La création du compte n’a pas abouti. Vérifie l’adresse et le mot de passe puis réessaie.' : 'La connexion n’a pas abouti. Vérifie tes identifiants puis réessaie.';
+    }
     menuButton.addEventListener('click', function () {
       const open = navLinks.classList.toggle('is-open');
       menuButton.setAttribute('aria-expanded', String(open));
@@ -400,13 +526,93 @@
     document.querySelectorAll('[data-open-login]').forEach(function (button) {
       button.addEventListener('click', function () {
         if (typeof loginDialog.showModal === 'function') loginDialog.showModal();
+        window.setTimeout(() => accountEmail.focus(), 0);
       });
     });
-    document.getElementById('close-dialog').addEventListener('click', function () {
-      loginDialog.close();
+    document.getElementById('account-tab-signup').addEventListener('click', () => setAccountMode('signup'));
+    document.getElementById('account-tab-login').addEventListener('click', () => setAccountMode('login'));
+    document.querySelectorAll('input[name="aurore-service"]').forEach(input => input.addEventListener('change', clearAccountMessage));
+    document.getElementById('close-dialog').addEventListener('click', function () { loginDialog.close(); });
+    loginDialog.addEventListener('click', function (event) { if (event.target === loginDialog) loginDialog.close(); });
+
+    accountForgot.addEventListener('click', async function () {
+      const email = accountEmail.value.trim();
+      if (!email) {
+        setAccountMessage('Indique ton adresse e-mail pour recevoir le lien de récupération.', false);
+        accountEmail.focus();
+        return;
+      }
+      if (accountBusy) return;
+      accountBusy = true;
+      accountForgot.disabled = true;
+      try {
+        const path = '/auth/v1/recover?redirect_to=' + encodeURIComponent(AURORE_RECOVERY_REDIRECT);
+        await authRequest(path, { email });
+        setAccountMessage('Si cette adresse correspond à un compte, un lien de récupération va être envoyé. Vérifie ta boîte de réception et les courriers indésirables.', true);
+      } catch (error) {
+        setAccountMessage(friendlyAuthError(error, false), false);
+      } finally {
+        accountBusy = false;
+        accountForgot.disabled = false;
+      }
     });
-    loginDialog.addEventListener('click', function (event) {
-      if (event.target === loginDialog) loginDialog.close();
+
+    accountForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      if (accountBusy) return;
+      const email = accountEmail.value.trim();
+      const password = accountPassword.value;
+      const services = selectedAuroreServices();
+      if (!services.length) {
+        setAccountMessage('Choisis au moins un espace Aurore à relier à ton compte.', false);
+        return;
+      }
+      if (accountMode === 'signup' && password !== accountPasswordConfirm.value) {
+        setAccountMessage('Les deux mots de passe ne correspondent pas.', false);
+        accountPasswordConfirm.focus();
+        return;
+      }
+      accountBusy = true;
+      accountSubmit.disabled = true;
+      accountSubmit.textContent = accountMode === 'signup' ? 'Création du compte…' : 'Vérification du compte…';
+      try {
+        if (accountMode === 'signup') {
+          const path = '/auth/v1/signup?redirect_to=' + encodeURIComponent(AURORE_HOME);
+          const result = await authRequest(path, {
+            email,
+            password,
+            data: {
+              aurore_services_selection: services,
+              aurore_id_registration_version: 1
+            }
+          });
+          if (result.user && Array.isArray(result.user.identities) && result.user.identities.length === 0) {
+            setAccountMessage('Un compte semble déjà exister avec cette adresse. Choisis « J’ai déjà un compte » pour continuer.', false);
+          } else if (result.session && result.session.access_token && result.user) {
+            setAccountMessage('Ton compte Aurore ID est créé et tes choix d’espaces sont enregistrés. Les connexions SSO sont encore en cours de raccordement service par service ; tes comptes locaux et leurs données n’ont pas été fusionnés.', true);
+          } else {
+            setAccountMessage('La demande de création est enregistrée. Ouvre le message de confirmation envoyé par e-mail pour activer ton compte. Tes choix d’espaces sont enregistrés avec la demande. La connexion unique sera activée service par service après vérification.', true);
+          }
+        } else {
+          const result = await authRequest('/auth/v1/token?grant_type=password', { email, password });
+          if (!result.access_token || !result.user) throw new Error('La réponse de connexion est incomplète.');
+          const existingData = result.user.user_metadata && typeof result.user.user_metadata === 'object' ? result.user.user_metadata : {};
+          await authRequest('/auth/v1/user', {
+            data: {
+              ...existingData,
+              aurore_services_selection: services,
+              aurore_services_selection_updated_at: new Date().toISOString()
+            }
+          }, result.access_token);
+          setAccountMessage('Identité Aurore ID vérifiée et choix enregistrés. Les connexions locales restent inchangées jusqu’à validation du SSO pour chaque service.', true);
+        }
+      } catch (error) {
+        setAccountMessage(friendlyAuthError(error, accountMode === 'signup'), false);
+      } finally {
+        accountBusy = false;
+        accountSubmit.disabled = false;
+        accountSubmit.textContent = accountMode === 'signup' ? 'Créer mon compte central' : 'Se connecter et enregistrer mes choix';
+      }
     });
     document.getElementById('copyright-year').textContent = new Date().getFullYear();
   </script>
