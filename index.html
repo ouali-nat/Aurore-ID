@@ -480,11 +480,11 @@
       accountSubmit.textContent = creating ? 'Créer mon compte central' : 'Se connecter et enregistrer mes choix';
       clearAccountMessage();
     }
-    async function authRequest(path, body, accessToken) {
+    async function authRequest(path, body, accessToken, method) {
       const headers = { 'apikey': AURORE_AUTH_KEY, 'Content-Type': 'application/json' };
       if (accessToken) headers.Authorization = 'Bearer ' + accessToken;
       const response = await fetch(AURORE_AUTH_URL + path, {
-        method: 'POST',
+        method: method || 'POST',
         headers,
         body: JSON.stringify(body)
       });
@@ -603,7 +603,7 @@
               aurore_services_selection: services,
               aurore_services_selection_updated_at: new Date().toISOString()
             }
-          }, result.access_token);
+          }, result.access_token, 'PUT');
           setAccountMessage('Identité Aurore ID vérifiée et choix enregistrés. Les connexions locales restent inchangées jusqu’à validation du SSO pour chaque service.', true);
         }
       } catch (error) {
