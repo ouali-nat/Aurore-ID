@@ -30,6 +30,12 @@
     .identity{display:none;align-items:center;gap:10px;margin:0 0 18px;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:13px}
     .identity-dot{width:9px;height:9px;border-radius:50%;background:#39966c;flex:none}
     .identity-email{overflow-wrap:anywhere;font-weight:750}
+    .field-group{display:grid;gap:7px;margin-top:15px}
+    .form-label{font-size:12px;font-weight:800;color:#3d465a}
+    .field-input{display:block;width:100%;min-height:49px;padding:12px 14px;border:1px solid #dfe3ed;border-radius:13px;background:#fff;color:var(--ink);font:inherit;font-size:14px;outline:none;transition:border-color .15s,box-shadow .15s}
+    .field-input:focus{border-color:#8d83d6;box-shadow:0 0 0 3px #c9bdff55}
+    .field-input::placeholder{color:#9aa2b2}
+    .text-button{background:transparent;color:#55538e;min-height:38px;padding:7px 10px;font-size:13px}
     .actions{display:grid;gap:10px;margin-top:22px}
     button{font:inherit;cursor:pointer;border:0;border-radius:14px;min-height:48px;padding:12px 16px;font-size:14px;font-weight:800;transition:transform .15s,opacity .15s}
     button:hover:not(:disabled){transform:translateY(-1px)}
@@ -62,9 +68,52 @@
 
       <section id="login-section" aria-labelledby="login-title">
         <div class="identity" id="login-identity"><span class="identity-dot" aria-hidden="true"></span><span>Compte connecté : <span class="identity-email" id="login-email"></span></span></div>
-        <h2 id="login-title" style="font-size:17px;margin:0 0 8px">Vérifiez votre identité</h2>
-        <p class="intro" style="margin-bottom:0">Connectez-vous avec Google pour poursuivre. Cette étape ne modifie pas vos comptes existants dans Archives ou Instituts.</p>
-        <div class="actions"><button class="primary" id="login-button" type="button">Continuer avec Google</button></div>
+        <h2 id="login-title" style="font-size:17px;margin:0 0 8px">Connectez-vous à Aurore ID</h2>
+        <p class="intro" id="login-copy" style="margin-bottom:18px">Utilisez votre adresse e-mail et votre mot de passe Aurore ID. Votre autorisation pour chaque service reste distincte.</p>
+        <form id="login-form">
+          <div class="field-group">
+            <label class="form-label" for="login-email-input">Adresse e-mail</label>
+            <input class="field-input" id="login-email-input" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="vous@exemple.com">
+          </div>
+          <div class="field-group">
+            <label class="form-label" for="login-password">Mot de passe</label>
+            <input class="field-input" id="login-password" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="Au moins 8 caractères">
+          </div>
+          <div class="actions">
+            <button class="primary" id="login-button" type="submit">Se connecter</button>
+            <button class="secondary" id="mode-toggle" type="button">Créer un compte Aurore ID</button>
+            <button class="text-button" id="reset-button" type="button">Mot de passe oublié ?</button>
+          </div>
+        </form>
+        <p class="fineprint">Votre mot de passe est vérifié par Supabase Auth. Il n’est jamais transmis aux services Aurore qui demandent une connexion.</p>
+      </section>
+
+      <section id="recovery-section" style="display:none" aria-labelledby="recovery-title">
+        <h2 id="recovery-title" style="font-size:20px;margin:0 0 8px">Récupérer votre compte</h2>
+        <p class="intro" id="recovery-copy">Indiquez l’adresse e-mail associée à votre compte. Si un compte correspondant existe, un lien de récupération sera envoyé.</p>
+        <div id="recovery-request">
+          <div class="field-group">
+            <label class="form-label" for="recovery-email">Adresse e-mail</label>
+            <input class="field-input" id="recovery-email" type="email" autocomplete="email" inputmode="email" maxlength="254" placeholder="vous@exemple.com">
+          </div>
+          <div class="actions">
+            <button class="primary" id="recovery-send" type="button">Envoyer le lien de récupération</button>
+            <button class="secondary" id="recovery-back" type="button">Retour à la connexion</button>
+          </div>
+        </div>
+        <div id="update-password-panel" style="display:none">
+          <div class="field-group">
+            <label class="form-label" for="new-password">Nouveau mot de passe</label>
+            <input class="field-input" id="new-password" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Au moins 8 caractères">
+          </div>
+          <div class="field-group">
+            <label class="form-label" for="new-password-confirm">Confirmer le mot de passe</label>
+            <input class="field-input" id="new-password-confirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Répétez le nouveau mot de passe">
+          </div>
+          <div class="actions">
+            <button class="primary" id="update-password-button" type="button">Enregistrer le mot de passe</button>
+          </div>
+        </div>
       </section>
 
       <section id="consent-section" style="display:none" aria-labelledby="consent-title">
