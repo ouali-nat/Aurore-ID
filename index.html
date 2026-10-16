@@ -312,12 +312,12 @@
           <article class="service-card service-archives">
             <div class="service-card-top"><span class="service-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 11h7M8 15h5"/></svg></span><span class="service-number">01 / ÉTUDIER</span></div>
             <h3>Section Archives</h3><p>Une bibliothèque numérique scolaire pour consulter des cours, des documents et des ressources éducatives.</p>
-            <a class="service-link" href="https://aurore-section-archives.com" target="_blank" rel="noopener noreferrer">Ouvrir Archives <span aria-hidden="true">↗</span></a>
+            <a class="service-link" href="https://aurore-section-archives.com/?aurore_sso=google" target="_blank" rel="noopener noreferrer">Connexion Google &amp; ouverture d’Archives <span aria-hidden="true">↗</span></a>
           </article>
           <article class="service-card service-instituts">
             <div class="service-card-top"><span class="service-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg></span><span class="service-number">02 / APPROFONDIR</span></div>
             <h3>Aurore Instituts</h3><p>Un espace dédié aux parcours et ressources conçus pour accompagner les apprentissages.</p>
-            <a class="service-link" href="https://auroresectioninstituts.vercel.app" target="_blank" rel="noopener noreferrer">Ouvrir Instituts <span aria-hidden="true">↗</span></a>
+            <a class="service-link" href="https://auroresectioninstituts.vercel.app/?aurore_sso=google" target="_blank" rel="noopener noreferrer">Connexion Google &amp; ouverture d’Instituts <span aria-hidden="true">↗</span></a>
           </article>
           <article class="service-card service-memories">
             <div class="service-card-top"><span class="service-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 8h8M8 12h5M8 16h8"/></svg></span><span class="service-number">03 / MÉMORISER</span></div>
@@ -369,10 +369,14 @@
   <dialog id="login-dialog" aria-labelledby="dialog-title">
     <div class="dialog-content">
       <div class="dialog-symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg></div>
-      <h2 id="dialog-title">La connexion centrale se prépare.</h2>
-      <p>Aurore ID est en cours de mise en place. La connexion Google centralisée sera activée seulement après les vérifications nécessaires sur les comptes et les redirections.</p>
-      <div class="dialog-note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:1px"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg><span>Pour le moment, tes comptes et les connexions actuelles restent inchangés. Tu peux continuer à ouvrir chaque service depuis les cartes ci-dessus.</span></div>
-      <div class="dialog-actions"><button class="btn btn-dark" id="close-dialog" type="button">J’ai compris</button></div>
+      <h2 id="dialog-title">Accéder à un espace Aurore</h2>
+      <p>Ce pilote gratuit démarre la connexion Google dans le service choisi. Si Google conserve déjà ta session dans ce navigateur, il peut la réutiliser sans te redemander ton mot de passe. Chaque service garde toutefois sa propre session Supabase : ce n’est pas encore une session technique unique partagée entre les deux applications.</p>
+      <div class="dialog-note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:1px"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg><span>Les comptes, UUID, données et règles RLS des services ne sont pas migrés. Le pilote passe uniquement par le flux Google déjà prévu dans chaque service.</span></div>
+      <div class="dialog-actions" style="display:grid;gap:10px;align-items:stretch">
+        <a class="btn btn-dark" href="https://aurore-section-archives.com/?aurore_sso=google" target="_blank" rel="noopener noreferrer">Se connecter à Archives <span class="btn-arrow" aria-hidden="true">↗</span></a>
+        <a class="btn btn-outline" href="https://auroresectioninstituts.vercel.app/?aurore_sso=google" target="_blank" rel="noopener noreferrer">Se connecter à Instituts <span aria-hidden="true">↗</span></a>
+        <button class="btn btn-outline" id="close-dialog" type="button">Retour</button>
+      </div>
     </div>
   </dialog>
 
