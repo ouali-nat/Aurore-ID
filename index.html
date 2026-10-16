@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101729">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Aurore ID — le point d’entrée des services Aurore. Accédez à vos espaces éducatifs depuis un portail clair, fiable et pensé pour la suite.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Aurore ID — Votre univers Aurore">
+  <meta property="og:description" content="Une porte d’entrée claire vers les services Aurore.">
+  <title>Aurore ID — Votre univers Aurore</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='19' fill='%23101729'/%3E%3Cpath d='M12 43 28 13l8 15 5-9 12 24H12Z' fill='none' stroke='%23DFF7C8' stroke-width='4' stroke-linejoin='round'/%3E%3Ccircle cx='47' cy='14' r='4' fill='%23B6A5FF'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      --ink: #172033;
+      --muted: #697387;
+      --paper: #f7f8fc;
+      --white: #fff;
+      --navy: #101729;
+      --navy-2: #171f35;
+      --line: rgba(23, 32, 51, .10);
+      --mint: #dff7c8;
+      --mint-deep: #bdeaa5;
+      --lilac: #c9bdff;
+      --sky: #c9e8ff;
+      --peach: #ffd7bf;
+      --radius-xl: 30px;
+      --radius-lg: 22px;
+      --shadow-soft: 0 18px 54px rgba(26, 35, 56, .08);
+      --shadow-card: 0 12px 30px rgba(26, 35, 56, .055);
+      --max: 1192px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0; background: var(--paper); color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    body, button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid #8f7df2; outline-offset: 4px; }
+    .wrap { width: min(calc(100% - 44px), var(--max)); margin-inline: auto; }
+    .skip-link { position: fixed; top: 8px; left: 8px; transform: translateY(-150%); z-index: 1000; background: white; padding: 12px 16px; border-radius: 12px; box-shadow: var(--shadow-soft); }
+    .skip-link:focus { transform: translateY(0); }
+    .topbar { position: sticky; z-index: 50; top: 0; background: rgba(247,248,252,.84); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); border-bottom: 1px solid rgba(23,32,51,.06); }
+    .nav { min-height: 78px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; min-width: 0; }
+    .brand-mark { display: grid; place-items: center; width: 43px; height: 43px; flex: 0 0 43px; background: var(--navy); border-radius: 15px; box-shadow: 0 7px 16px rgba(16,23,41,.14); }
+    .brand-copy { display: grid; gap: 1px; line-height: 1.1; }
+    .brand-name { font-size: 17px; font-weight: 820; letter-spacing: -.055em; }
+    .brand-caption { font-size: 10px; color: #8b93a4; letter-spacing: .13em; text-transform: uppercase; font-weight: 750; }
+    .nav-links { display: flex; align-items: center; gap: 29px; }
+    .nav-links a { font-size: 13px; font-weight: 650; color: #656f82; transition: color .2s ease; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-actions { display: flex; align-items: center; gap: 10px; }
+    .btn { min-height: 45px; padding: 0 17px; display: inline-flex; justify-content: center; align-items: center; gap: 10px; border-radius: 14px; border: 1px solid transparent; font-size: 13px; font-weight: 760; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:active { transform: translateY(0); }
+    .btn-dark { color: white; background: var(--navy); box-shadow: 0 7px 18px rgba(16,23,41,.15); }
+    .btn-dark:hover { background: #202b45; box-shadow: 0 10px 24px rgba(16,23,41,.2); }
+    .btn-light { background: rgba(255,255,255,.75); border-color: rgba(255,255,255,.45); color: var(--navy); }
+    .btn-outline { background: transparent; border-color: var(--line); color: var(--ink); }
+    .btn-outline:hover { background: white; box-shadow: var(--shadow-card); }
+    .btn-arrow { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(255,255,255,.14); }
+    .menu-toggle { display: none; width: 44px; height: 44px; align-items: center; justify-content: center; border: 1px solid var(--line); border-radius: 14px; color: var(--ink); background: white; cursor: pointer; }
+    .hero { position: relative; overflow: hidden; padding: 64px 0 55px; background: var(--navy); color: white; isolation: isolate; }
+    .hero::before { content: ""; position: absolute; z-index: -1; width: 720px; height: 720px; right: -190px; top: -435px; border-radius: 50%; border: 1px solid rgba(223,247,200,.12); box-shadow: 0 0 0 65px rgba(223,247,200,.025), 0 0 0 135px rgba(201,189,255,.025), 0 0 0 205px rgba(201,189,255,.02); }
+    .hero::after { content: ""; position: absolute; z-index: -1; width: 520px; height: 520px; right: 12%; bottom: -415px; border-radius: 50%; background: rgba(96,83,164,.21); filter: blur(25px); }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(350px, .95fr); align-items: center; gap: 54px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; color: #d4f5bc; font-size: 11px; font-weight: 780; text-transform: uppercase; letter-spacing: .16em; }
+    .eyebrow-dot { width: 7px; height: 7px; background: var(--mint); border-radius: 50%; box-shadow: 0 0 0 5px rgba(223,247,200,.1); }
+    h1 { max-width: 640px; margin: 23px 0 22px; font-size: clamp(44px, 5.8vw, 75px); line-height: .99; letter-spacing: -.075em; font-weight: 800; }
+    h1 .soft { color: #d4caff; font-weight: 650; }
+    .hero-copy { max-width: 540px; color: #bdc5d5; font-size: 16px; line-height: 1.8; }
+    .hero-copy strong { color: white; font-weight: 700; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 11px; margin-top: 31px; }
+    .hero-trust { display: flex; align-items: center; gap: 10px; margin-top: 32px; color: #aab4c8; font-size: 12px; }
+    .trust-icon { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 10px; background: rgba(223,247,200,.1); color: var(--mint); }
+    .hero-art { position: relative; min-height: 390px; display: grid; place-items: center; }
+    .art-glow { position: absolute; width: 310px; height: 310px; border-radius: 50%; background: linear-gradient(145deg, rgba(201,189,255,.24), rgba(201,232,255,.06)); filter: blur(4px); }
+    .orbit { position: absolute; border: 1px solid rgba(255,255,255,.13); border-radius: 50%; transform: rotate(-24deg); }
+    .orbit-one { width: 360px; height: 235px; }
+    .orbit-two { width: 280px; height: 350px; transform: rotate(31deg); border-color: rgba(223,247,200,.18); }
+    .portal-card { position: relative; z-index: 2; width: min(100%, 348px); padding: 22px; border-radius: 27px; background: linear-gradient(145deg, rgba(255,255,255,.13), rgba(255,255,255,.055)); border: 1px solid rgba(255,255,255,.2); box-shadow: 0 28px 70px rgba(0,0,0,.24); backdrop-filter: blur(18px); }
+    .portal-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 19px; }
+    .portal-card-title { font-size: 12px; color: #c9d0df; font-weight: 700; }
+    .live-dot { display: inline-flex; align-items: center; gap: 7px; color: #d5f5c0; font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; }
+    .live-dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--mint); }
+    .identity-row { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 18px; background: rgba(255,255,255,.08); }
+    .identity-avatar { display: grid; place-items: center; width: 42px; height: 42px; flex: 0 0 42px; border-radius: 15px; color: var(--navy); background: var(--mint); }
+    .identity-text { flex: 1; min-width: 0; }
+    .identity-name { font-size: 13px; font-weight: 780; }
+    .identity-sub { margin-top: 4px; font-size: 10px; color: #aeb8cc; }
+    .identity-check { color: var(--mint); }
+    .portal-divider { height: 1px; background: rgba(255,255,255,.1); margin: 21px 0 16px; }
+    .portal-caption { font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: #9da9c0; font-weight: 760; margin-bottom: 11px; }
+    .app-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .app-chip { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 10px; border-radius: 13px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.07); font-size: 10px; color: #e3e7ef; font-weight: 700; }
+    .chip-icon { display: grid; place-items: center; width: 27px; height: 27px; border-radius: 9px; color: var(--navy); flex: 0 0 27px; }
+    .chip-mint { background: var(--mint); } .chip-lilac { background: var(--lilac); } .chip-sky { background: var(--sky); } .chip-peach { background: var(--peach); }
+    .art-note { position: absolute; z-index: 3; display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,.96); color: var(--ink); border-radius: 17px; padding: 11px 14px; box-shadow: 0 12px 32px rgba(0,0,0,.22); }
+    .art-note-one { top: 29px; right: -3px; transform: rotate(3deg); }
+    .art-note-two { bottom: 20px; left: -3px; transform: rotate(-3deg); }
+    .note-icon { display: grid; place-items: center; width: 32px; height: 32px; flex: 0 0 32px; border-radius: 11px; background: #edf9e6; color: #376331; }
+    .note-title { font-size: 11px; font-weight: 800; }
+    .note-sub { margin-top: 3px; color: #818a9b; font-size: 9px; }
+    .signal-strip { background: #fff; border-bottom: 1px solid var(--line); }
+    .signal-inner { display: grid; grid-template-columns: repeat(3, 1fr); padding: 19px 0; }
+    .signal { display: flex; justify-content: center; align-items: center; gap: 10px; color: #697386; font-size: 12px; font-weight: 650; }
+    .signal + .signal { border-left: 1px solid var(--line); }
+    .signal svg { color: #677c51; flex: 0 0 auto; }
+    section.content-section { padding: 86px 0; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 28px; margin-bottom: 33px; }
+    .section-kicker { margin: 0 0 11px; color: #75815f; text-transform: uppercase; font-size: 10px; letter-spacing: .16em; font-weight: 830; }
+    h2 { margin: 0; font-size: clamp(30px, 3.9vw, 44px); line-height: 1.1; letter-spacing: -.06em; font-weight: 800; }
+    .section-intro { max-width: 420px; margin: 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
+    .services-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
+    .service-card { position: relative; display: flex; flex-direction: column; min-height: 288px; padding: 22px 20px 18px; border: 1px solid rgba(23,32,51,.075); border-radius: 23px; background: white; box-shadow: var(--shadow-card); overflow: hidden; transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .service-card:hover { transform: translateY(-5px); border-color: rgba(23,32,51,.14); box-shadow: 0 20px 45px rgba(26,35,56,.10); }
+    .service-card::after { content: ""; position: absolute; width: 135px; height: 135px; right: -55px; top: -58px; border-radius: 50%; background: var(--card-tint); opacity: .8; }
+    .service-card-top { display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1; }
+    .service-icon { display: grid; place-items: center; width: 51px; height: 51px; border-radius: 17px; color: #1a2a36; background: var(--card-tint); }
+    .service-number { font-size: 10px; letter-spacing: .12em; color: #9ba3b1; font-weight: 780; }
+    .service-card h3 { position: relative; z-index: 1; margin: 25px 0 9px; font-size: 19px; letter-spacing: -.045em; }
+    .service-card p { position: relative; z-index: 1; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.75; }
+    .service-link { position: relative; z-index: 1; display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding-top: 22px; color: #28364f; font-size: 12px; font-weight: 800; }
+    .service-link span { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; background: #f0f2f7; transition: transform .2s ease, background .2s ease; }
+    .service-link:hover span { transform: translateX(3px); background: var(--card-tint); }
+    .service-archives { --card-tint: #dff7c8; }
+    .service-instituts { --card-tint: #d8d0ff; }
+    .service-memories { --card-tint: #c9e8ff; }
+    .service-animation { --card-tint: #ffd7bf; }
+    .bridge { position: relative; overflow: hidden; padding: 38px; border-radius: var(--radius-xl); background: #e9eafa; display: grid; grid-template-columns: minmax(0,1fr) minmax(260px,.74fr); gap: 36px; align-items: center; }
+    .bridge::after { content: ""; position: absolute; right: -50px; bottom: -180px; width: 350px; height: 350px; border: 1px solid rgba(91,90,151,.15); border-radius: 50%; box-shadow: 0 0 0 36px rgba(91,90,151,.035), 0 0 0 75px rgba(91,90,151,.035); pointer-events: none; }
+    .bridge .section-kicker { color: #6662a0; }
+    .bridge h2 { max-width: 520px; font-size: clamp(29px, 3.6vw, 42px); }
+    .bridge p { max-width: 580px; color: #646b83; font-size: 13px; line-height: 1.85; }
+    .bridge-points { position: relative; z-index: 1; display: grid; gap: 10px; }
+    .bridge-point { display: flex; gap: 12px; align-items: center; padding: 14px; background: rgba(255,255,255,.69); border: 1px solid rgba(255,255,255,.85); border-radius: 17px; }
+    .bridge-point-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 13px; background: #fff; color: #625a9c; flex: 0 0 38px; }
+    .bridge-point-title { font-size: 12px; font-weight: 800; }
+    .bridge-point-sub { margin-top: 4px; color: #7c8298; font-size: 10px; line-height: 1.4; }
+    .security { display: grid; grid-template-columns: .8fr 1.2fr; align-items: start; gap: 72px; }
+    .security-copy p { max-width: 360px; color: var(--muted); line-height: 1.85; font-size: 13px; }
+    .security-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .security-item { padding: 20px; border-radius: 19px; border: 1px solid var(--line); background: white; }
+    .security-item svg { color: #6a7d4d; }
+    .security-item h3 { margin: 13px 0 6px; font-size: 13px; letter-spacing: -.02em; }
+    .security-item p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .footer { padding: 27px 0 34px; border-top: 1px solid var(--line); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-copy { color: #8a92a2; font-size: 11px; line-height: 1.6; }
+    .footer-links { display: flex; gap: 19px; color: #677185; font-size: 11px; font-weight: 650; }
+    .footer-links a:hover { color: var(--ink); }
+    .status-line { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; color: #7b8293; font-size: 10px; }
+    .status-line span { width: 6px; height: 6px; border-radius: 50%; background: #a6adbb; }
+    dialog { width: min(calc(100% - 32px), 440px); border: 1px solid rgba(255,255,255,.22); padding: 0; border-radius: 25px; color: var(--ink); background: #fff; box-shadow: 0 32px 90px rgba(7,12,24,.33); }
+    dialog::backdrop { background: rgba(9,14,28,.66); backdrop-filter: blur(5px); }
+    .dialog-content { padding: 28px; }
+    .dialog-symbol { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 17px; background: var(--navy); color: var(--mint); }
+    .dialog-content h2 { margin: 19px 0 10px; font-size: 27px; }
+    .dialog-content p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .dialog-note { display: flex; align-items: flex-start; gap: 10px; padding: 13px; border-radius: 14px; background: #f1f3f8; color: #535e73; font-size: 11px; line-height: 1.6; }
+    .dialog-actions { display: flex; justify-content: flex-end; margin-top: 22px; }
+    @media (max-width: 1040px) {
+      .hero-grid { gap: 28px; grid-template-columns: minmax(0,1fr) minmax(310px,.9fr); }
+      .hero-art { transform: scale(.94); }
+      .services-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .service-card { min-height: 264px; }
+      .security { gap: 42px; }
+    }
+    @media (max-width: 760px) {
+      .wrap { width: min(calc(100% - 32px), var(--max)); }
+      .nav { min-height: 70px; }
+      .brand-mark { width: 40px; height: 40px; flex-basis: 40px; }
+      .nav-links { display: none; position: absolute; top: 70px; left: 16px; right: 16px; padding: 10px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.98); box-shadow: var(--shadow-soft); }
+      .nav-links.is-open { display: grid; gap: 2px; }
+      .nav-links a { padding: 13px 12px; border-radius: 11px; }
+      .nav-links a:hover { background: #f4f5f9; }
+      .nav-actions .btn { display: none; }
+      .menu-toggle { display: inline-flex; }
+      .hero { padding: 48px 0 34px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 9px; }
+      h1 { font-size: clamp(43px, 10.7vw, 65px); margin-top: 20px; }
+      .hero-copy { font-size: 14px; line-height: 1.8; }
+      .hero-actions { margin-top: 24px; }
+      .hero-art { min-height: 350px; transform: none; margin: 0 -4px; }
+      .portal-card { width: min(100%, 330px); }
+      .orbit-one { width: 320px; height: 210px; }
+      .orbit-two { width: 245px; height: 320px; }
+      .art-note-one { right: -1px; top: 18px; }
+      .art-note-two { left: -1px; bottom: 6px; }
+      .signal-inner { grid-template-columns: 1fr; padding: 8px 0; }
+      .signal { justify-content: flex-start; padding: 11px 2px; font-size: 11px; }
+      .signal + .signal { border-left: 0; border-top: 1px solid var(--line); }
+      section.content-section { padding: 62px 0; }
+      .section-heading { display: block; margin-bottom: 25px; }
+      .section-intro { margin-top: 15px; }
+      .services-grid { gap: 11px; }
+      .service-card { min-height: 267px; padding: 17px 15px; border-radius: 19px; }
+      .service-icon { width: 45px; height: 45px; border-radius: 15px; }
+      .service-card h3 { font-size: 17px; margin-top: 22px; }
+      .service-card p { font-size: 11px; }
+      .service-link { font-size: 11px; }
+      .bridge { padding: 25px 20px; grid-template-columns: 1fr; gap: 17px; }
+      .bridge::after { opacity: .65; }
+      .security { grid-template-columns: 1fr; gap: 23px; }
+      .security-list { gap: 10px; }
+      .security-item { padding: 16px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .footer-links { flex-wrap: wrap; gap: 13px 19px; }
+    }
+    @media (max-width: 380px) {
+      .wrap { width: calc(100% - 26px); }
+      .brand-name { font-size: 16px; }
+      .hero-actions .btn { width: 100%; }
+      .hero-art { min-height: 320px; }
+      .portal-card { padding: 16px; }
+      .art-note { padding: 9px 10px; }
+      .note-sub { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { min-height: 230px; }
+      .security-list { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenu">Aller au contenu</a>
+  <header class="topbar">
+    <div class="wrap nav">
+      <a class="brand" href="#accueil" aria-label="Aurore ID, accueil">
+        <span class="brand-mark" aria-hidden="true">
+          <svg width="27" height="27" viewBox="0 0 32 32" fill="none"><path d="M4.5 23.5 13 7l4.1 8.2 3-5.2 7.4 13.5H4.5Z" stroke="#DFF7C8" stroke-width="2" stroke-linejoin="round"/><circle cx="25" cy="7" r="2.1" fill="#C9BDFF"/></svg>
+        </span>
+        <span class="brand-copy"><span class="brand-name">aurore<span style="color:#7770ba">.</span>id</span><span class="brand-caption">L’espace Aurore</span></span>
+      </a>
+      <nav class="nav-links" id="nav-links" aria-label="Navigation principale">
+        <a href="#services">Les services</a>
+        <a href="#parcours">Notre vision</a>
+        <a href="#securite">Confiance & sécurité</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn-dark" type="button" data-open-login>Connexion <span class="btn-arrow" aria-hidden="true">↗</span></button>
+        <button class="menu-toggle" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenu">
+    <section class="hero" id="accueil">
+      <div class="wrap hero-grid">
+        <div class="hero-copy-block">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> L’espace d’accès Aurore</div>
+          <h1>Une seule porte.<br><span class="soft">Tout l’univers Aurore.</span></h1>
+          <p class="hero-copy">Les ressources, l’apprentissage, les idées et la création se retrouvent ici. <strong>Aurore ID devient progressivement le point d’entrée commun</strong> de tes services éducatifs — avec une expérience plus claire, plus cohérente et conçue pour durer.</p>
+          <div class="hero-actions">
+            <a class="btn btn-light" href="#services">Découvrir les services <span class="btn-arrow" aria-hidden="true" style="background:rgba(16,23,41,.08)">↓</span></a>
+            <button class="btn btn-outline" type="button" data-open-login style="color:white;border-color:rgba(255,255,255,.2)">Connexion centrale <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="hero-trust"><span class="trust-icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </span> Une transition progressive, sans modifier les comptes existants à cette étape.</div>
+        </div>
+
+        <div class="hero-art" aria-label="Illustration conceptuelle du portail et des services Aurore">
+          <div class="art-glow" aria-hidden="true"></div><div class="orbit orbit-one" aria-hidden="true"></div><div class="orbit orbit-two" aria-hidden="true"></div>
+          <div class="portal-card">
+            <div class="portal-card-head"><span class="portal-card-title">Votre espace Aurore</span><span class="live-dot">Portail central</span></div>
+            <div class="identity-row">
+              <div class="identity-avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-3.4 3.1-5.2 7-5.2s6.3 1.8 7 5.2"/></svg></div>
+              <div class="identity-text"><div class="identity-name">Votre identité Aurore</div><div class="identity-sub">Un point d’entrée, plusieurs espaces</div></div>
+              <svg class="identity-check" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+            </div>
+            <div class="portal-divider"></div>
+            <div class="portal-caption">Les espaces Aurore</div>
+            <div class="app-chips">
+              <div class="app-chip"><span class="chip-icon chip-mint" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 11h7"/></svg></span> Archives</div>
+              <div class="app-chip"><span class="chip-icon chip-lilac" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg></span> Instituts</div>
+              <div class="app-chip"><span class="chip-icon chip-sky" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 8h8M8 12h5M8 16h8"/></svg></span> Mémoire</div>
+              <div class="app-chip"><span class="chip-icon chip-peach" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M7 7V4h10v3M8 12h8M8 16h4"/></svg></span> Animation</div>
+            </div>
+          </div>
+          <div class="art-note art-note-one"><span class="note-icon" aria-hidden="true"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.9 5.8L20 11l-6.1 2.2L12 19l-2-5.8L4 11l6-2.2L12 3Z"/><path d="m19 15 .9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9L19 15Z"/></svg></span><span><span class="note-title">Une expérience unifiée</span><br><span class="note-sub">Pensée pour évoluer avec toi</span></span></div>
+          <div class="art-note art-note-two"><span class="note-icon" aria-hidden="true" style="background:#eeeaff;color:#6756ad"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg></span><span><span class="note-title">La sécurité d’abord</span><br><span class="note-sub">Chaque étape sera vérifiée</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="signal-strip" aria-label="Principes du portail">
+      <div class="wrap signal-inner">
+        <div class="signal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg> Les comptes actuels restent en place</div>
+        <div class="signal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Une mise en place par étapes</div>
+        <div class="signal"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="19" cy="17" r="2"/></svg> Un accès simple à chaque service</div>
+      </div>
+    </div>
+
+    <section class="content-section" id="services">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><p class="section-kicker">Les espaces Aurore</p><h2>Choisis ton prochain<br>espace de travail.</h2></div>
+          <p class="section-intro">Chaque service garde sa fonction et son environnement. Aurore ID les rassemble ici pour t’aider à passer facilement de l’un à l’autre.</p>
+        </div>
+        <div class="services-grid">
+          <article class="service-card service-archives">
+            <div class="service-card-top"><span class="service-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 11h7M8 15h5"/></svg></span><span class="service-number">01 / ÉTUDIER</span></div>
+            <h3>Section Archives</h3><p>Une bibliothèque numérique scolaire pour consulter des cours, des documents et des ressources éducatives.</p>
+            <a class="service-link" href="https://aurore-section-archives.com" target="_blank" rel="noopener noreferrer">Ouvrir Archives <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="service-card service-instituts">
+            <div class="service-card-top"><span class="service-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg></span><span class="service-number">02 / APPROFONDIR</span></div>
+            <h3>Aurore Instituts</h3><p>Un espace dédié aux parcours et ressources conçus pour accompagner les apprentissages.</p>
+            <a class="service-link" href="https://auroresectioninstituts.vercel.app" target="_blank" rel="noopener noreferrer">Ouvrir Instituts <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="service-card service-memories">
+            <div class="service-card-top"><span class="service-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 8h8M8 12h5M8 16h8"/></svg></span><span class="service-number">03 / MÉMORISER</span></div>
+            <h3>Aurore Mémoire</h3><p>Des cartes, des séries de questions et des outils pour réviser et consolider ses connaissances.</p>
+            <a class="service-link" href="https://aurore-memories-mu.vercel.app" target="_blank" rel="noopener noreferrer">Ouvrir Mémoire <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="service-card service-animation">
+            <div class="service-card-top"><span class="service-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M7 7V4h10v3M8 12h8M8 16h4"/></svg></span><span class="service-number">04 / CRÉER</span></div>
+            <h3>Aurore Animation</h3><p>Un espace de création pour donner vie aux personnages, aux scènes et aux idées.</p>
+            <a class="service-link" href="https://aurore-animation-zeta.vercel.app" target="_blank" rel="noopener noreferrer">Ouvrir Animation <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="parcours" style="padding-top:0">
+      <div class="wrap">
+        <div class="bridge">
+          <div><p class="section-kicker">La suite se prépare ici</p><h2>Plus simple à parcourir. Plus cohérent à utiliser.</h2><p>Aurore ID est conçu pour devenir le point de départ commun de l’écosystème. La première étape rassemble les services ; les futures étapes porteront sur l’identité et la connexion, après vérification de la compatibilité avec les comptes existants.</p><a class="btn btn-dark" href="#securite">Comprendre notre approche <span class="btn-arrow" aria-hidden="true">↓</span></a></div>
+          <div class="bridge-points">
+            <div class="bridge-point"><span class="bridge-point-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.7-3.4 3.1-5.2 7-5.2s6.3 1.8 7 5.2"/></svg></span><span><span class="bridge-point-title">Une identité centrale, à terme</span><br><span class="bridge-point-sub">Un parcours de connexion partagé sera préparé et testé séparément.</span></span></div>
+            <div class="bridge-point"><span class="bridge-point-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="9"/></svg></span><span><span class="bridge-point-title">Des services qui gardent leur rôle</span><br><span class="bridge-point-sub">Les données et les fonctions propres à chaque service restent séparées.</span></span></div>
+            <div class="bridge-point"><span class="bridge-point-icon" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg></span><span><span class="bridge-point-title">Une migration sans précipitation</span><br><span class="bridge-point-sub">Pas de suppression ou de bascule silencieuse des comptes existants.</span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="securite" style="padding-top:12px">
+      <div class="wrap security">
+        <div class="security-copy"><p class="section-kicker">Confiance & sécurité</p><h2>Construire la confiance, étape après étape.</h2><p>Un portail d’identité touche à ce qu’il y a de plus important : l’accès aux comptes. Nous préférons activer chaque fonction après l’avoir vérifiée plutôt que de présenter une connexion qui ne serait pas prête.</p><div class="status-line"><span aria-hidden="true"></span> Connexion centrale : préparation en cours</div></div>
+        <div class="security-list">
+          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg><h3>Les comptes sont préservés</h3><p>Cette page ne modifie ni les comptes ni les sessions des services existants.</p></article>
+          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg><h3>Pas de faux écran de connexion</h3><p>La connexion centrale reste inactive tant que son intégration n’est pas prête et vérifiée.</p></article>
+          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16M4 10h10M4 15h16M4 20h10"/></svg><h3>Chaque service garde ses données</h3><p>Le portail ne collecte aucune donnée de compte dans cette première version.</p></article>
+          <article class="security-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 2"/></svg><h3>Une transition progressive</h3><p>Le parcours sera d’abord testé avant toute redirection des utilisateurs.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div><a class="brand" href="#accueil"><span class="brand-mark" aria-hidden="true" style="width:35px;height:35px;flex-basis:35px;border-radius:12px"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M4.5 23.5 13 7l4.1 8.2 3-5.2 7.4 13.5H4.5Z" stroke="#DFF7C8" stroke-width="2" stroke-linejoin="round"/><circle cx="25" cy="7" r="2.1" fill="#C9BDFF"/></svg></span><span class="brand-copy"><span class="brand-name" style="font-size:14px">aurore<span style="color:#7770ba">.</span>id</span><span class="brand-caption">L’espace Aurore</span></span></a><p class="footer-copy">Un point d’entrée pour un écosystème qui grandit.<br><span id="copyright-year"></span> Aurore. Tous droits réservés.</p></div>
+      <nav class="footer-links" aria-label="Navigation de pied de page"><a href="#services">Les services</a><a href="#parcours">Notre vision</a><a href="#securite">Sécurité</a><button type="button" data-open-login style="border:0;background:none;padding:0;color:inherit;cursor:pointer;font:inherit">État de la connexion</button></nav>
+    </div>
+  </footer>
+
+  <dialog id="login-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-content">
+      <div class="dialog-symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg></div>
+      <h2 id="dialog-title">La connexion centrale se prépare.</h2>
+      <p>Aurore ID est en cours de mise en place. La connexion Google centralisée sera activée seulement après les vérifications nécessaires sur les comptes et les redirections.</p>
+      <div class="dialog-note"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:0 0 auto;margin-top:1px"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11Z"/><path d="m9 12 2 2 4-4"/></svg><span>Pour le moment, tes comptes et les connexions actuelles restent inchangés. Tu peux continuer à ouvrir chaque service depuis les cartes ci-dessus.</span></div>
+      <div class="dialog-actions"><button class="btn btn-dark" id="close-dialog" type="button">J’ai compris</button></div>
+    </div>
+  </dialog>
+
+  <script>
+    const menuButton = document.querySelector('.menu-toggle');
+    const navLinks = document.getElementById('nav-links');
+    const loginDialog = document.getElementById('login-dialog');
+    menuButton.addEventListener('click', function () {
+      const open = navLinks.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+      menuButton.innerHTML = open
+        ? '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg>'
+        : '<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+    });
+    navLinks.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        navLinks.classList.remove('is-open');
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.setAttribute('aria-label', 'Ouvrir le menu');
+      });
+    });
+    document.querySelectorAll('[data-open-login]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        if (typeof loginDialog.showModal === 'function') loginDialog.showModal();
+      });
+    });
+    document.getElementById('close-dialog').addEventListener('click', function () {
+      loginDialog.close();
+    });
+    loginDialog.addEventListener('click', function (event) {
+      if (event.target === loginDialog) loginDialog.close();
+    });
+    document.getElementById('copyright-year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
