@@ -16,13 +16,22 @@
   const $ = function (id) { return document.getElementById(id); };
   const loginSection = $("login-section");
   const consentSection = $("consent-section");
+  const recoverySection = $("recovery-section");
   const notice = $("notice");
   const loginButton = $("login-button");
+  const loginForm = $("login-form");
+  const modeToggle = $("mode-toggle");
+  const resetButton = $("reset-button");
+  const recoverySendButton = $("recovery-send");
+  const recoveryBackButton = $("recovery-back");
+  const updatePasswordButton = $("update-password-button");
   const approveButton = $("approve-button");
   const denyButton = $("deny-button");
   let client = null;
   let authorizationId = "";
   let authorizationDetails = null;
+  let authMode = "signin";
+  let passwordRecoveryMode = false;
   let busy = false;
 
   function setNotice(message, good) {
@@ -39,7 +48,7 @@
 
   function setBusy(value) {
     busy = !!value;
-    [loginButton, approveButton, denyButton].forEach(function (button) {
+    [loginButton, modeToggle, resetButton, recoverySendButton, recoveryBackButton, updatePasswordButton, approveButton, denyButton].forEach(function (button) {
       if (button) button.disabled = busy;
     });
   }
@@ -95,6 +104,59 @@
   function showLogin() {
     loginSection.style.display = "block";
     consentSection.style.display = "none";
+    recoverySection.style.display = "none";
+    $("login-identity").style.display = "none";
+  }
+
+  function showRecoveryRequest() {
+    loginSection.style.display = "none";
+    consentSection.style.display = "none";
+    recoverySection.style.display = "block";
+    $("recovery-request").style.display = "block";
+    $("update-password-panel").style.display = "none";
+    $("recovery-title").textContent = "Récupérer votre compte";
+    $("recovery-copy").textContent = "Indiquez l’adresse e-mail associée à votre compte. Si un compte correspondant existe, un lien de récupération sera envoyé.";
+    clearNotice();
+  }
+
+  function showPasswordRecovery() {
+    loginSection.style.display = "none";
+    consentSection.style.display = "none";
+    recoverySection.style.display = "block";
+    $("recovery-request").style.display = "none";
+    $("update-password-panel").style.display = "block";
+    $("recovery-title").textContent = "Choisir un nouveau mot de passe";
+    $("recovery-copy").textContent = "Choisissez un mot de passe d’au moins 8 caractères pour retrouver l’accès à votre compte Aurore ID.";
+    clearNotice();
+  }
+
+  function authErrorMessage(error, creatingAccount) {
+    const message = String(error && error.message || "").toLowerCase();
+    if (message.includes("invalid login credentials")) return "Adresse e-mail ou mot de passe incorrect.";
+    if (message.includes("email not confirmed")) return "Confirmez d’abord votre adresse e-mail grâce au message reçu.";
+    if (message.includes("user already registered") || message.includes("already been registered")) return "Un compte existe déjà avec cette adresse. Connectez-vous plutôt que de créer un nouveau compte.";
+    if (message.includes("password should be at least") || message.includes("password is too short")) return "Le mot de passe doit contenir au moins 8 caractères.";
+    if (message.includes("email rate limit") || message.includes("too many requests")) return "Trop de demandes ont été envoyées. Attendez quelques minutes avant de réessayer.";
+    if (message.includes("network") || message.includes("fetch")) return "Connexion au service indisponible. Vérifiez votre réseau et réessayez.";
+    if (creatingAccount) return "La création du compte n’a pas abouti. Vérifiez l’adresse e-mail et le mot de passe, puis réessayez.";
+    return "La connexion n’a pas abouti. Vérifiez vos identifiants, puis réessayez.";
+  }
+
+  async function continueAuthenticatedUser(user) {
+    const detailsResult = await client.auth.oauth.getAuthorizationDetails(authorizationId);
+    const details = detailsResult.data;
+    if (detailsResult.error || !details) {
+      throw new Error("La demande d’autorisation a expiré ou n’est pas valide. Revenez au service demandeur et recommencez.");
+    }
+
+    if (!("authorization_id" in details)) {
+      const target = verifyRedirectUrl(details.redirect_url, null);
+      clearAuthorizationId();
+      window.location.replace(target);
+      return;
+    }
+
+    showConsent(details, user);
   }
 
   function showConsent(details, user) {
@@ -194,8 +256,23 @@
       }
     });
 
+    client.auth.onAuthStateChange(function (event) {
+      if (event === "PASSWORD_RECOVERY") {
+        passwordRecoveryMode = true;
+        showPasswordRecovery();
+      }
+    });
+
+    const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    if (fragment.get("type") === "recovery") passwordRecoveryMode = true;
+
     const sessionResult = await client.auth.getSession();
     if (sessionResult.error) throw new Error("Impossible de vérifier la session Aurore ID. Recommencez la connexion.");
+
+    if (passwordRecoveryMode) {
+      showPasswordRecovery();
+      return;
+    }
 
     const session = sessionResult.data && sessionResult.data.session;
     if (!session) {
@@ -210,43 +287,111 @@
       return;
     }
 
-    $("login-email").textContent = String(user.email || "compte Aurore connecté");
-    $("login-identity").style.display = "flex";
-
-    const detailsResult = await client.auth.oauth.getAuthorizationDetails(authorizationId);
-    const details = detailsResult.data;
-    if (detailsResult.error || !details) {
-      throw new Error("La demande d’autorisation a expiré ou n’est pas valide. Retournez au service demandeur et recommencez.");
-    }
-
-    if (!("authorization_id" in details)) {
-      const target = verifyRedirectUrl(details.redirect_url, null);
-      clearAuthorizationId();
-      window.location.replace(target);
-      return;
-    }
-
-    showConsent(details, user);
+    await continueAuthenticatedUser(user);
   }
 
   async function handleLogin() {
     if (busy || !client || !authorizationId) return;
     clearNotice();
+    const email = String($("login-email-input").value || "").trim();
+    const password = String($("login-password").value || "");
+    if (!email || !password) {
+      setNotice("Saisissez votre adresse e-mail et votre mot de passe.");
+      return;
+    }
     setBusy(true);
     try {
-      const result = await client.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: consentUrl(authorizationId),
-          queryParams: { prompt: "select_account" },
-          skipBrowserRedirect: true
+      if (authMode === "signup") {
+        const result = await client.auth.signUp({
+          email: email,
+          password: password,
+          options: { emailRedirectTo: consentUrl(authorizationId) }
+        });
+        if (result.error) throw result.error;
+
+        if (!result.data || !result.data.session) {
+          setNotice("Votre demande de création de compte a été reçue. Consultez votre boîte e-mail pour confirmer l’adresse avant de vous connecter.", true);
+          return;
         }
+      } else {
+        const result = await client.auth.signInWithPassword({ email: email, password: password });
+        if (result.error) throw result.error;
+      }
+
+      const userResult = await client.auth.getUser();
+      const user = userResult.data && userResult.data.user;
+      if (userResult.error || !user) {
+        throw new Error("Le compte a été reconnu, mais la session n’a pas pu être vérifiée. Recommencez la connexion.");
+      }
+      await continueAuthenticatedUser(user);
+    } catch (error) {
+      setNotice(authErrorMessage(error, authMode === "signup"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function toggleAuthMode() {
+    if (busy) return;
+    authMode = authMode === "signin" ? "signup" : "signin";
+    const creating = authMode === "signup";
+    $("login-title").textContent = creating ? "Créer votre compte Aurore ID" : "Connectez-vous à Aurore ID";
+    $("login-copy").textContent = creating
+      ? "Créez un compte avec une adresse e-mail que vous pouvez consulter et un mot de passe d’au moins 8 caractères."
+      : "Utilisez votre adresse e-mail et votre mot de passe Aurore ID. Votre autorisation pour chaque service reste distincte.";
+    loginButton.textContent = creating ? "Créer mon compte" : "Se connecter";
+    modeToggle.textContent = creating ? "J’ai déjà un compte" : "Créer un compte Aurore ID";
+    $("login-password").autocomplete = creating ? "new-password" : "current-password";
+    $("login-password").value = "";
+    clearNotice();
+  }
+
+  async function handleRecoveryRequest() {
+    if (busy || !client || !authorizationId) return;
+    const email = String($("recovery-email").value || "").trim();
+    if (!email) {
+      setNotice("Saisissez l’adresse e-mail associée à votre compte.");
+      return;
+    }
+    clearNotice();
+    setBusy(true);
+    try {
+      const result = await client.auth.resetPasswordForEmail(email, {
+        redirectTo: consentUrl(authorizationId)
       });
       if (result.error) throw result.error;
-      // Supabase normally performs the redirect. Keep an explicit fallback for SDK/browser variations.
-      if (result.data && result.data.url) window.location.assign(result.data.url);
-    } catch (_) {
-      setNotice("La connexion Google n’est pas disponible pour le moment. Vérifiez que le fournisseur Google est activé dans les réglages Auth d’Aurore ID, puis réessayez.");
+      setNotice("Si un compte correspond à cette adresse, un e-mail de récupération va être envoyé. Consultez aussi vos courriers indésirables.", true);
+    } catch (error) {
+      setNotice(authErrorMessage(error, false));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handlePasswordUpdate() {
+    if (busy || !client) return;
+    const password = String($("new-password").value || "");
+    const confirm = String($("new-password-confirm").value || "");
+    if (password.length < 8) {
+      setNotice("Le nouveau mot de passe doit contenir au moins 8 caractères.");
+      return;
+    }
+    if (password !== confirm) {
+      setNotice("Les deux mots de passe ne correspondent pas.");
+      return;
+    }
+    clearNotice();
+    setBusy(true);
+    try {
+      const result = await client.auth.updateUser({ password: password });
+      if (result.error) throw result.error;
+      await client.auth.signOut();
+      passwordRecoveryMode = false;
+      $("login-password").value = "";
+      showLogin();
+      setNotice("Mot de passe mis à jour. Vous pouvez maintenant vous connecter à Aurore ID.", true);
+    } catch (error) {
+      setNotice(authErrorMessage(error, false));
     } finally {
       setBusy(false);
     }
@@ -273,7 +418,18 @@
     }
   }
 
-  loginButton.addEventListener("click", handleLogin);
+  loginForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    handleLogin();
+  });
+  modeToggle.addEventListener("click", toggleAuthMode);
+  resetButton.addEventListener("click", function () {
+    $("recovery-email").value = String($("login-email-input").value || "").trim();
+    showRecoveryRequest();
+  });
+  recoverySendButton.addEventListener("click", handleRecoveryRequest);
+  recoveryBackButton.addEventListener("click", showLogin);
+  updatePasswordButton.addEventListener("click", handlePasswordUpdate);
   approveButton.addEventListener("click", function () { handleDecision(true); });
   denyButton.addEventListener("click", function () { handleDecision(false); });
 
