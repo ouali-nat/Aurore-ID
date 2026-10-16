@@ -476,6 +476,8 @@
       accountPassword.minLength = creating ? 8 : 1;
       accountConfirmWrap.style.display = creating ? 'grid' : 'none';
       accountPasswordConfirm.required = creating;
+      accountPasswordConfirm.minLength = creating ? 8 : 0;
+      accountPasswordConfirm.value = '';
       accountForgot.style.display = creating ? 'none' : 'inline-block';
       accountSubmit.textContent = creating ? 'Créer mon compte central' : 'Se connecter et enregistrer mes choix';
       clearAccountMessage();
