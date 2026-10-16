@@ -129,6 +129,50 @@
     clearNotice();
   }
 
+  async function loadSupabaseSdk() {
+    if (window.supabase && typeof window.supabase.createClient === "function") return;
+
+    const sources = [
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js",
+      "https://unpkg.com/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"
+    ];
+
+    for (const src of sources) {
+      try {
+        await new Promise(function (resolve, reject) {
+          const script = document.createElement("script");
+          let settled = false;
+          const finish = function (error) {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timer);
+            script.onload = null;
+            script.onerror = null;
+            if (error) {
+              script.remove();
+              reject(error);
+            } else {
+              resolve();
+            }
+          };
+          const timer = setTimeout(function () {
+            finish(new Error("Délai de chargement dépassé"));
+          }, 8000);
+          script.src = src;
+          script.async = true;
+          script.onload = function () { finish(); };
+          script.onerror = function () { finish(new Error("CDN inaccessible")); };
+          document.head.appendChild(script);
+        });
+        if (window.supabase && typeof window.supabase.createClient === "function") return;
+      } catch (_) {
+        // Try the next approved CDN; do not expose internal network details to the user.
+      }
+    }
+
+    throw new Error("Le service de connexion n’a pas pu être chargé. Vérifiez votre réseau, puis réessayez.");
+  }
+
   async function initialize() {
     if (window.location.origin !== CANONICAL_ORIGIN) {
       throw new Error("Pour une connexion sûre, ouvrez Aurore ID à son adresse officielle : " + CANONICAL_ORIGIN);
@@ -139,9 +183,7 @@
       throw new Error("Aucune demande de connexion valide n’a été trouvée. Revenez au service Aurore que vous souhaitez ouvrir.");
     }
 
-    if (!window.supabase || typeof window.supabase.createClient !== "function") {
-      throw new Error("Le service de connexion n’a pas pu être chargé. Vérifiez votre réseau, puis réessayez.");
-    }
+    await loadSupabaseSdk();
 
     client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
       auth: {
