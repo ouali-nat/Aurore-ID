@@ -133,8 +133,8 @@
     if (window.supabase && typeof window.supabase.createClient === "function") return;
 
     const sources = [
-      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js",
-      "https://unpkg.com/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"
+      "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js",
+      "https://unpkg.com/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"
     ];
 
     for (const src of sources) {
