@@ -196,7 +196,8 @@
         provider: "google",
         options: {
           redirectTo: consentUrl(authorizationId),
-          queryParams: { prompt: "select_account" }
+          queryParams: { prompt: "select_account" },
+          skipBrowserRedirect: true
         }
       });
       if (result.error) throw result.error;
