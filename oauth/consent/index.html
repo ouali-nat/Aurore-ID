@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101729">
+  <meta name="description" content="Autorisation sécurisée de connexion aux services Aurore via Aurore ID.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Autorisation sécurisée — Aurore ID</title>
+  <style>
+    :root{color-scheme:light;--ink:#172033;--muted:#697387;--paper:#f5f6fb;--line:#e3e6ef;--navy:#101729;--mint:#dff7c8;--lilac:#c9bdff;--danger:#a12842}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:radial-gradient(circle at 4% 0%,#e9e5ff 0,transparent 35%),radial-gradient(circle at 100% 100%,#e7f8df 0,transparent 31%),var(--paper);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;place-items:center;padding:24px}
+    a{color:inherit}
+    .shell{width:min(100%,560px)}
+    .brand{display:flex;gap:12px;align-items:center;margin:0 0 23px 4px}
+    .mark{width:46px;height:46px;display:grid;place-items:center;border-radius:16px;background:var(--navy);box-shadow:0 10px 24px #10172922;flex:none}
+    .brand-name{font-size:18px;font-weight:850;letter-spacing:-.05em;line-height:1.1}
+    .brand-sub{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:750;margin-top:4px}
+    .card{background:#ffffffed;border:1px solid #ffffff;border-radius:28px;padding:clamp(22px,5vw,36px);box-shadow:0 24px 75px #1b24400f}
+    .eyebrow{font-size:11px;font-weight:850;text-transform:uppercase;letter-spacing:.14em;color:#6b61a9;margin:0 0 10px}
+    h1{font-size:clamp(26px,6vw,34px);line-height:1.12;letter-spacing:-.045em;margin:0 0 12px}
+    .intro{color:var(--muted);font-size:14px;margin:0 0 24px}
+    .request{display:none;background:#f8f9fc;border:1px solid var(--line);border-radius:18px;padding:17px;margin:20px 0}
+    .request-row+.request-row{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+    .label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.1em;font-weight:800;color:var(--muted);margin-bottom:4px}
+    .value{font-size:14px;font-weight:720;overflow-wrap:anywhere}
+    .scope-list{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 0;padding:0;list-style:none}
+    .scope-list li{font-size:12px;background:#eeebff;color:#473b84;border:1px solid #e3dcff;padding:6px 9px;border-radius:999px;font-weight:720}
+    .identity{display:none;align-items:center;gap:10px;margin:0 0 18px;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:#fff;font-size:13px}
+    .identity-dot{width:9px;height:9px;border-radius:50%;background:#39966c;flex:none}
+    .identity-email{overflow-wrap:anywhere;font-weight:750}
+    .actions{display:grid;gap:10px;margin-top:22px}
+    button{font:inherit;cursor:pointer;border:0;border-radius:14px;min-height:48px;padding:12px 16px;font-size:14px;font-weight:800;transition:transform .15s,opacity .15s}
+    button:hover:not(:disabled){transform:translateY(-1px)}
+    button:disabled{cursor:wait;opacity:.58}
+    .primary{background:var(--navy);color:white;box-shadow:0 8px 18px #1017291c}
+    .secondary{background:white;color:var(--ink);border:1px solid var(--line)}
+    .deny{background:transparent;color:var(--muted);border:1px solid transparent}
+    .fineprint{font-size:12px;color:var(--muted);margin:18px 0 0}
+    .notice{display:none;padding:12px 14px;margin:16px 0 0;border-radius:13px;background:#fdf0f2;border:1px solid #f4cdd4;color:var(--danger);font-size:13px;overflow-wrap:anywhere}
+    .notice.ok{background:#eff8f1;border-color:#cee9d5;color:#205e38}
+    .footer{text-align:center;color:#7c8495;font-size:11px;margin:16px 0 0}
+    .footer a{text-decoration:none}
+    @media(max-width:420px){body{padding:16px}.card{border-radius:22px}.brand{margin-left:2px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.min.js"></script>
+  <script defer src="/oauth/consent/consent.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="brand">
+      <span class="mark" aria-hidden="true">
+        <svg width="27" height="27" viewBox="0 0 32 32" fill="none"><path d="M4.5 23.5 13 7l4.1 8.2 3-5.2 7.4 13.5H4.5Z" stroke="#DFF7C8" stroke-width="2" stroke-linejoin="round"/><circle cx="25" cy="7" r="2.1" fill="#C9BDFF"/></svg>
+      </span>
+      <span><span class="brand-name">aurore<span style="color:#7770ba">.</span>id</span><span class="brand-sub" style="display:block">Connexion sécurisée</span></span>
+    </header>
+    <section class="card" aria-labelledby="page-title">
+      <p class="eyebrow">Votre identité reste sous votre contrôle</p>
+      <h1 id="page-title">Connexion à votre espace Aurore</h1>
+      <p class="intro" id="intro">Aurore ID vérifie votre identité pour le service que vous avez demandé. Vous pourrez examiner les informations partagées avant d’autoriser l’accès.</p>
+
+      <section id="login-section" aria-labelledby="login-title">
+        <div class="identity" id="login-identity"><span class="identity-dot" aria-hidden="true"></span><span>Compte connecté : <span class="identity-email" id="login-email"></span></span></div>
+        <h2 id="login-title" style="font-size:17px;margin:0 0 8px">Vérifiez votre identité</h2>
+        <p class="intro" style="margin-bottom:0">Connectez-vous avec Google pour poursuivre. Cette étape ne modifie pas vos comptes existants dans Archives ou Instituts.</p>
+        <div class="actions"><button class="primary" id="login-button" type="button">Continuer avec Google</button></div>
+      </section>
+
+      <section id="consent-section" style="display:none" aria-labelledby="consent-title">
+        <div class="identity" id="consent-identity"><span class="identity-dot" aria-hidden="true"></span><span>Connecté en tant que <span class="identity-email" id="consent-email"></span></span></div>
+        <h2 id="consent-title" style="font-size:20px;margin:0 0 8px">Autoriser ce service ?</h2>
+        <p class="intro" style="margin-bottom:0">Vérifiez le nom du service et les informations demandées. L’autorisation ne lui accorde pas automatiquement de rôle administrateur dans Aurore.</p>
+        <div class="request" id="request-details">
+          <div class="request-row"><span class="label">Service demandeur</span><div class="value" id="client-name"></div></div>
+          <div class="request-row"><span class="label">Adresse de retour enregistrée</span><div class="value" id="redirect-uri"></div></div>
+          <div class="request-row"><span class="label">Informations demandées</span><ul class="scope-list" id="scope-list"></ul></div>
+        </div>
+        <div class="actions">
+          <button class="primary" id="approve-button" type="button">Autoriser et continuer</button>
+          <button class="secondary" id="deny-button" type="button">Refuser la demande</button>
+        </div>
+        <p class="fineprint">Votre décision est transmise à Aurore ID. Aucun jeton de connexion n’est affiché ni copié dans cette page.</p>
+      </section>
+
+      <div class="notice" id="notice" role="alert" aria-live="polite"></div>
+    </section>
+    <p class="footer"><a href="https://aurore-id.vercel.app/">Aurore ID</a> · Un espace commun, des autorisations distinctes pour chaque service.</p>
+  </main>
+</body>
+</html>
