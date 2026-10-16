@@ -23,6 +23,11 @@ alter table public.r2_objects enable row level security;
 revoke all on table public.r2_objects from anon, authenticated;
 grant all on table public.r2_objects to service_role;
 
+drop policy if exists "R2 metadata managed by trusted backend" on public.r2_objects;
+create policy "R2 metadata managed by trusted backend"
+  on public.r2_objects for all to service_role
+  using (true) with check (true);
+
 create index if not exists r2_objects_owner_service_created_idx
   on public.r2_objects (owner_id, service, created_at desc);
 
