@@ -188,6 +188,52 @@
     .service-choice strong { display: block; font-size: 12px; }
     .service-choice small { display: block; margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.45; }
     .account-submit { width: 100%; margin-top: 8px; }
+
+    .auth-step[hidden], .service-step[hidden], .hub-step[hidden], .picker-deck[hidden], .picker-summary[hidden] { display: none !important; }
+    .service-step, .hub-step { margin-top: 22px; }
+    .connected-account { display:flex; align-items:center; gap:10px; padding:11px 13px; background:#f3f7ef; border:1px solid #dcebd2; border-radius:14px; color:#31532a; font-size:12px; overflow-wrap:anywhere; }
+    .connected-account .account-dot { width:9px; height:9px; border-radius:50%; background:#548b43; flex:none; box-shadow:0 0 0 4px #548b4318; }
+    .picker-intro { margin:15px 0 12px; color:var(--muted); font-size:12px; line-height:1.65; }
+    .picker-progress-row { display:flex; align-items:center; justify-content:space-between; gap:10px; margin:14px 2px 8px; font-size:11px; color:var(--muted); font-weight:750; }
+    .picker-progress-track { height:5px; overflow:hidden; background:#e9ebf3; border-radius:999px; margin-bottom:12px; }
+    .picker-progress-fill { width:0; height:100%; border-radius:999px; background:linear-gradient(90deg,#b6a5ff,#8fbf78); transition:width .2s ease; }
+    .service-picker-card { min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:10px; padding:22px 20px; border:1px solid #dfe3ed; border-radius:23px; background:linear-gradient(145deg,#fff,#f8f8ff); box-shadow:0 12px 28px rgba(26,35,56,.07); touch-action:pan-y; user-select:none; -webkit-user-select:none; transition:transform .16s ease,border-color .16s ease,background .16s ease; cursor:grab; }
+    .service-picker-card:active { cursor:grabbing; }
+    .service-picker-card[data-swipe="right"] { transform:translateX(5px) rotate(1.5deg); border-color:#86b779; background:#f4fbef; }
+    .service-picker-card[data-swipe="left"] { transform:translateX(-5px) rotate(-1.5deg); border-color:#d7b0b7; background:#fff6f7; }
+    .picker-service-number { font-size:10px; font-weight:850; letter-spacing:.14em; text-transform:uppercase; color:#7b779e; }
+    .picker-service-symbol { width:54px; height:54px; display:grid; place-items:center; border-radius:18px; background:#e9e4ff; color:#3d376c; font-size:22px; font-weight:850; }
+    .service-picker-card h3 { margin:0; font-size:23px; line-height:1.15; letter-spacing:-.045em; }
+    .service-picker-card p { margin:0; max-width:320px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .picker-current-state { min-height:18px; font-size:10px; font-weight:800; color:#47743b; }
+    .picker-actions { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:13px; }
+    .picker-actions .btn { width:100%; min-height:46px; padding-inline:9px; }
+    .picker-help { margin:10px 3px 0; text-align:center; color:#80899b; font-size:10px; line-height:1.5; }
+    .picker-summary-title { margin:0 0 6px; font-size:18px; letter-spacing:-.035em; }
+    .picker-summary-copy { margin:0 0 13px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .selected-service-list { display:flex; flex-wrap:wrap; gap:7px; margin:12px 0 17px; }
+    .selected-service-pill { display:inline-flex; align-items:center; gap:6px; border:1px solid #dbe8d5; border-radius:999px; padding:8px 10px; background:#f5faf2; color:#365c2d; font-size:11px; font-weight:750; }
+    .selected-service-pill::before { content:"✓"; font-weight:900; }
+    .picker-summary-actions { display:grid; gap:9px; }
+    .picker-summary-actions .btn { width:100%; }
+    .hub-heading { margin:0 0 6px; font-size:19px; letter-spacing:-.035em; }
+    .hub-copy { margin:0 0 15px; color:var(--muted); font-size:12px; line-height:1.65; }
+    .hub-grid { display:grid; gap:9px; }
+    .hub-service { display:flex; align-items:center; gap:11px; min-width:0; padding:12px; border:1px solid var(--line); border-radius:15px; background:#fff; }
+    .hub-service-symbol { width:40px; height:40px; display:grid; place-items:center; flex:none; border-radius:13px; background:#eeebff; color:#473b84; font-size:17px; font-weight:850; }
+    .hub-service-copy { min-width:0; flex:1; }
+    .hub-service-copy strong { display:block; font-size:12px; }
+    .hub-service-copy small { display:block; margin-top:4px; color:var(--muted); font-size:10px; line-height:1.4; }
+    .hub-service a { flex:none; font-size:11px; font-weight:800; color:#51468c; padding:8px 10px; border-radius:10px; background:#f0edff; }
+    .hub-note { margin:13px 0; padding:11px 12px; border:1px solid #e8e6f5; border-radius:13px; background:#f8f7ff; color:#66617e; font-size:10px; line-height:1.65; }
+    .hub-actions { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+    .hub-actions .btn { width:100%; padding-inline:8px; }
+    @media (max-width: 420px) {
+      .service-picker-card { min-height:205px; padding:18px 14px; }
+      .service-picker-card h3 { font-size:21px; }
+      .hub-actions { grid-template-columns:1fr; }
+    }
+
     .account-message { display: none; margin: 14px 0 0; border-radius: 12px; padding: 12px 13px; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; background: #fdf0f2; border: 1px solid #f4cdd4; color: #a12842; }
     .account-message.ok { background: #eff8f1; border-color: #cee9d5; color: #205e38; }
     .account-footnote { margin: 15px 0 0; color: #7b8495; font-size: 10px; line-height: 1.65; }
@@ -408,12 +454,13 @@
     <div class="account-content">
       <div class="dialog-symbol" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 1 1 8 0v3"/></svg></div>
       <h2 id="dialog-title">Crée ton compte Aurore ID</h2>
-      <p class="account-copy" id="account-copy">Un compte central pour ton identité Aurore. Choisis les espaces que tu souhaites relier à ce compte.</p>
-      <div class="account-tabs" role="tablist" aria-label="Mode du compte">
-        <button class="account-tab" id="account-tab-signup" type="button" role="tab" aria-selected="true">Créer un compte</button>
-        <button class="account-tab" id="account-tab-login" type="button" role="tab" aria-selected="false">J’ai déjà un compte</button>
-      </div>
-      <form id="account-form">
+      <p class="account-copy" id="account-copy">Crée d’abord ton identité centrale. Après validation, tu pourras sélectionner les services par glissement.</p>
+      <div class="auth-step" id="auth-step">
+        <div class="account-tabs" role="tablist" aria-label="Mode du compte">
+          <button class="account-tab" id="account-tab-signup" type="button" role="tab" aria-selected="true">Créer un compte</button>
+          <button class="account-tab" id="account-tab-login" type="button" role="tab" aria-selected="false">J’ai déjà un compte</button>
+        </div>
+        <form id="account-form">
         <div class="account-field">
           <label for="account-email">Adresse e-mail</label>
           <input id="account-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="vous@exemple.com">
@@ -426,20 +473,52 @@
           <label for="account-password-confirm">Confirmer le mot de passe</label>
           <input id="account-password-confirm" name="password-confirm" type="password" autocomplete="new-password" required minlength="8" maxlength="128" placeholder="Répète le mot de passe">
         </div>
-        <div class="services-choice">
-          <p class="services-choice-title">Quels espaces souhaites-tu relier à ton compte ?</p>
-          <label class="service-choice"><input type="checkbox" name="aurore-service" value="archives"><span><strong>Section Archives</strong><small>Cours, documents et ressources scolaires</small></span></label>
-          <label class="service-choice"><input type="checkbox" name="aurore-service" value="instituts"><span><strong>Aurore Instituts</strong><small>Parcours et ressources d’apprentissage</small></span></label>
-          <label class="service-choice"><input type="checkbox" name="aurore-service" value="memoire"><span><strong>Aurore Mémoire</strong><small>Cartes de révision et séries de questions</small></span></label>
-          <label class="service-choice"><input type="checkbox" name="aurore-service" value="animation"><span><strong>Aurore Animation</strong><small>Création de personnages et de scènes</small></span></label>
-          <label class="service-choice"><input type="checkbox" name="aurore-service" value="plume"><span><strong>Aurore Plume</strong><small>Atelier d’écriture et partage de textes</small></span></label>
-          <label class="service-choice"><input type="checkbox" name="aurore-service" value="talents"><span><strong>Aurore Talents</strong><small>Profils, projets et opportunités</small></span></label>
-        </div>
         <button class="btn btn-dark account-submit" id="account-submit" type="submit">Créer mon compte central</button>
         <button class="account-link" id="account-forgot" type="button" style="display:none">Mot de passe oublié ?</button>
         <p class="account-message" id="account-message" role="status" aria-live="polite"></p>
-      </form>
-      <p class="account-footnote">Tes choix sont enregistrés dans les préférences de ton compte Aurore ID. Cette étape ne fusionne pas automatiquement les comptes existants et n’accorde pas de rôle dans un service. Le raccordement de la connexion unique est vérifié service par service ; les connexions actuelles restent disponibles pendant cette transition.</p>
+        </form>
+      </div>
+      <section class="service-step" id="services-step" hidden aria-labelledby="service-step-title">
+        <div class="connected-account"><span class="account-dot" aria-hidden="true"></span><span>Compte connecté : <strong id="connected-account-email"></strong></span></div>
+        <p class="picker-intro" id="service-step-title">Choisis les services que tu souhaites retrouver dans ton espace Aurore. Glisse une carte vers la droite pour l’associer, ou vers la gauche pour la passer ou la retirer.</p>
+        <div class="picker-deck" id="picker-deck">
+          <div class="picker-progress-row"><span id="picker-progress-label">Service 1 sur 6</span><span id="picker-selection-count">0 associé</span></div>
+          <div class="picker-progress-track" aria-hidden="true"><div class="picker-progress-fill" id="picker-progress-fill"></div></div>
+          <article class="service-picker-card" id="service-picker-card" aria-live="polite" aria-label="Carte de sélection d’un service">
+            <span class="picker-service-number" id="picker-service-number"></span>
+            <span class="picker-service-symbol" id="picker-service-symbol" aria-hidden="true"></span>
+            <h3 id="picker-service-name"></h3>
+            <p id="picker-service-description"></p>
+            <span class="picker-current-state" id="picker-current-state"></span>
+          </article>
+          <div class="picker-actions">
+            <button class="btn btn-outline" id="picker-skip" type="button">Passer</button>
+            <button class="btn btn-dark" id="picker-associate" type="button">Associer</button>
+          </div>
+          <p class="picker-help">Sur téléphone : glisse la carte horizontalement. Tu peux aussi utiliser les deux boutons.</p>
+        </div>
+        <div class="picker-summary" id="picker-summary" hidden>
+          <h3 class="picker-summary-title">Voici ta sélection</h3>
+          <p class="picker-summary-copy" id="picker-summary-copy"></p>
+          <div class="selected-service-list" id="selected-service-list"></div>
+          <div class="picker-summary-actions">
+            <button class="btn btn-outline" id="picker-review" type="button">Revoir les services</button>
+            <button class="btn btn-dark" id="save-services" type="button">Enregistrer mes choix</button>
+          </div>
+          <p class="account-message" id="picker-message" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+      <section class="hub-step" id="hub-step" hidden aria-labelledby="hub-title">
+        <h3 class="hub-heading" id="hub-title">Ton espace Aurore</h3>
+        <p class="hub-copy">Tes préférences sont enregistrées. Choisis le service que tu veux ouvrir ; Aurore ID ne t’envoie pas automatiquement vers une application.</p>
+        <div class="hub-grid" id="hub-services"></div>
+        <p class="hub-note">Important : enregistrer un service ici mémorise ton choix, mais n’active pas à lui seul la connexion unique. Chaque application doit encore être raccordée et vérifiée avec Aurore ID ; ses comptes et données existants restent séparés jusqu’à cette étape.</p>
+        <div class="hub-actions">
+          <button class="btn btn-outline" id="edit-services" type="button">Modifier mes choix</button>
+          <button class="btn btn-outline" id="account-sign-out" type="button">Terminer la session</button>
+        </div>
+      </section>
+      <p class="account-footnote">Tes préférences sont enregistrées sur ton compte Aurore ID. Elles ne fusionnent pas automatiquement tes anciens comptes et ne changent pas les rôles dans les services. La connexion unique sera vérifiée séparément pour chaque application.</p>
       <div class="dialog-actions"><button class="btn btn-outline" id="close-dialog" type="button">Fermer</button></div>
     </div>
   </dialog>
@@ -461,8 +540,44 @@
     const accountSubmit = document.getElementById('account-submit');
     const accountCopy = document.getElementById('account-copy');
     const accountForgot = document.getElementById('account-forgot');
+    const authStep = document.getElementById('auth-step');
+    const servicesStep = document.getElementById('services-step');
+    const hubStep = document.getElementById('hub-step');
+    const connectedAccountEmail = document.getElementById('connected-account-email');
+    const pickerDeck = document.getElementById('picker-deck');
+    const pickerCard = document.getElementById('service-picker-card');
+    const pickerProgressLabel = document.getElementById('picker-progress-label');
+    const pickerProgressFill = document.getElementById('picker-progress-fill');
+    const pickerSelectionCount = document.getElementById('picker-selection-count');
+    const pickerServiceNumber = document.getElementById('picker-service-number');
+    const pickerServiceSymbol = document.getElementById('picker-service-symbol');
+    const pickerServiceName = document.getElementById('picker-service-name');
+    const pickerServiceDescription = document.getElementById('picker-service-description');
+    const pickerCurrentState = document.getElementById('picker-current-state');
+    const pickerSkip = document.getElementById('picker-skip');
+    const pickerAssociate = document.getElementById('picker-associate');
+    const pickerSummary = document.getElementById('picker-summary');
+    const pickerSummaryCopy = document.getElementById('picker-summary-copy');
+    const selectedServiceList = document.getElementById('selected-service-list');
+    const saveServicesButton = document.getElementById('save-services');
+    const pickerMessage = document.getElementById('picker-message');
+    const hubServices = document.getElementById('hub-services');
     let accountMode = 'signup';
     let accountBusy = false;
+    let activeAccessToken = '';
+    let activeUser = null;
+    let selectedServices = new Set();
+    let serviceCursor = 0;
+    let swipeStartX = null;
+
+    const AURORE_SERVICES = [
+      { id: 'archives', name: 'Section Archives', description: 'Cours, documents et ressources scolaires.', category: '01 / ÉTUDIER', symbol: 'A', url: 'https://aurore-section-archives.com' },
+      { id: 'instituts', name: 'Aurore Instituts', description: 'Parcours et ressources d’apprentissage.', category: '02 / APPROFONDIR', symbol: 'I', url: 'https://auroresectioninstituts.vercel.app' },
+      { id: 'memoire', name: 'Aurore Mémoire', description: 'Cartes de révision et séries de questions.', category: '03 / MÉMORISER', symbol: 'M', url: 'https://aurore-memories-aurore9.vercel.app' },
+      { id: 'animation', name: 'Aurore Animation', description: 'Création de personnages et de scènes.', category: '04 / CRÉER', symbol: 'An', url: 'https://aurore-animation-zeta.vercel.app' },
+      { id: 'plume', name: 'Aurore Plume', description: 'Atelier d’écriture et partage de textes.', category: '05 / ÉCRIRE', symbol: 'P', url: 'https://aurore-plume.vercel.app/' },
+      { id: 'talents', name: 'Aurore Talents', description: 'Profils, projets et opportunités.', category: '06 / RELIER', symbol: 'T', url: 'https://aurore-talents.vercel.app/' }
+    ];
 
     function setAccountMessage(message, good) {
       accountMessage.textContent = String(message || '');
@@ -474,8 +589,13 @@
       accountMessage.style.display = 'none';
       accountMessage.className = 'account-message';
     }
-    function selectedAuroreServices() {
-      return Array.from(document.querySelectorAll('input[name="aurore-service"]:checked')).map(input => input.value);
+    function setPickerMessage(message, good) {
+      pickerMessage.textContent = String(message || '');
+      pickerMessage.className = good ? 'account-message ok' : 'account-message';
+      pickerMessage.style.display = message ? 'block' : 'none';
+    }
+    function clearPickerMessage() {
+      setPickerMessage('', false);
     }
     function setAccountMode(mode) {
       accountMode = mode === 'login' ? 'login' : 'signup';
@@ -484,8 +604,8 @@
       document.getElementById('account-tab-login').setAttribute('aria-selected', String(!creating));
       document.getElementById('dialog-title').textContent = creating ? 'Crée ton compte Aurore ID' : 'Connecte-toi à Aurore ID';
       accountCopy.textContent = creating
-        ? 'Un compte central pour ton identité Aurore. Choisis les espaces que tu souhaites relier à ce compte.'
-        : 'Connecte-toi avec ton compte central et enregistre les espaces que tu souhaites relier.';
+        ? 'Crée d’abord ton identité centrale. Après validation, tu pourras sélectionner les services par glissement.'
+        : 'Entre ton e-mail et ton mot de passe. Tu choisiras ensuite les services à associer à ton espace.';
       accountPassword.autocomplete = creating ? 'new-password' : 'current-password';
       accountPassword.minLength = creating ? 8 : 1;
       accountConfirmWrap.style.display = creating ? 'grid' : 'none';
@@ -493,8 +613,18 @@
       accountPasswordConfirm.minLength = creating ? 8 : 0;
       accountPasswordConfirm.value = '';
       accountForgot.style.display = creating ? 'none' : 'inline-block';
-      accountSubmit.textContent = creating ? 'Créer mon compte central' : 'Se connecter et enregistrer mes choix';
+      accountSubmit.textContent = creating ? 'Créer mon compte central' : 'Se connecter';
       clearAccountMessage();
+    }
+    function authErrorMessage(error, creating) {
+      const message = String(error && (error.message || error.code) || '').toLowerCase();
+      if (message.includes('invalid login credentials')) return 'Adresse e-mail ou mot de passe incorrect.';
+      if (message.includes('email not confirmed')) return 'Confirme d’abord ton adresse e-mail grâce au message reçu.';
+      if (message.includes('already registered') || message.includes('already been registered')) return 'Un compte semble déjà exister avec cette adresse. Choisis « J’ai déjà un compte » pour te connecter.';
+      if (message.includes('password should be at least') || message.includes('password is too short')) return 'Le mot de passe doit contenir au moins 8 caractères.';
+      if (message.includes('email rate limit') || message.includes('too many requests')) return 'Trop de demandes ont été envoyées. Attends quelques minutes avant de réessayer.';
+      if (message.includes('fetch') || message.includes('network')) return 'Le service de compte est momentanément inaccessible. Vérifie ta connexion puis réessaie.';
+      return creating ? 'La création du compte n’a pas abouti. Vérifie l’adresse et le mot de passe puis réessaie.' : 'La connexion n’a pas abouti. Vérifie tes identifiants puis réessaie.';
     }
     async function authRequest(path, body, accessToken, method) {
       const headers = { 'apikey': AURORE_AUTH_KEY, 'Content-Type': 'application/json' };
@@ -514,16 +644,144 @@
       }
       return data;
     }
-    function friendlyAuthError(error, creating) {
-      const message = String(error && (error.message || error.code) || '').toLowerCase();
-      if (message.includes('invalid login credentials')) return 'Adresse e-mail ou mot de passe incorrect.';
-      if (message.includes('email not confirmed')) return 'Confirme d’abord ton adresse e-mail avec le message reçu.';
-      if (message.includes('already registered') || message.includes('already been registered')) return 'Un compte semble déjà exister avec cette adresse. Choisis « J’ai déjà un compte » pour te connecter.';
-      if (message.includes('password should be at least') || message.includes('password is too short')) return 'Le mot de passe doit contenir au moins 8 caractères.';
-      if (message.includes('email rate limit') || message.includes('too many requests')) return 'Trop de demandes ont été envoyées. Attends quelques minutes avant de réessayer.';
-      if (message.includes('fetch') || message.includes('network')) return 'Le service de compte est momentanément inaccessible. Vérifie ta connexion puis réessaie.';
-      return creating ? 'La création du compte n’a pas abouti. Vérifie l’adresse et le mot de passe puis réessaie.' : 'La connexion n’a pas abouti. Vérifie tes identifiants puis réessaie.';
+    function selectedServiceNames() {
+      return AURORE_SERVICES.filter(service => selectedServices.has(service.id)).map(service => service.name);
     }
+    function showServicePicker(user, accessToken) {
+      activeUser = user || activeUser;
+      activeAccessToken = accessToken || activeAccessToken;
+      if (!activeUser || !activeAccessToken) {
+        setAccountMessage('La connexion n’a pas fourni de session utilisable. Reconnecte-toi puis réessaie.', false);
+        return;
+      }
+      const meta = activeUser.user_metadata && typeof activeUser.user_metadata === 'object' ? activeUser.user_metadata : {};
+      const prior = Array.isArray(meta.aurore_services_selection) ? meta.aurore_services_selection : [];
+      selectedServices = new Set(prior.filter(id => AURORE_SERVICES.some(service => service.id === id)));
+      serviceCursor = 0;
+      authStep.hidden = true;
+      servicesStep.hidden = false;
+      hubStep.hidden = true;
+      connectedAccountEmail.textContent = activeUser.email || 'Compte Aurore ID';
+      document.getElementById('dialog-title').textContent = 'Choisis tes services Aurore';
+      accountCopy.textContent = 'Sélectionne les espaces que tu veux retrouver dans ton compte central.';
+      pickerDeck.hidden = false;
+      pickerSummary.hidden = true;
+      clearPickerMessage();
+      renderServicePicker();
+    }
+    function renderServicePicker() {
+      pickerCard.dataset.swipe = '';
+      pickerSelectionCount.textContent = selectedServices.size + (selectedServices.size > 1 ? ' associés' : ' associé');
+      if (serviceCursor >= AURORE_SERVICES.length) {
+        pickerDeck.hidden = true;
+        pickerSummary.hidden = false;
+        const names = selectedServiceNames();
+        pickerSummaryCopy.textContent = names.length
+          ? names.length + (names.length > 1 ? ' services sélectionnés. Tu peux les enregistrer dans ton espace Aurore.' : ' service sélectionné. Tu peux l’enregistrer dans ton espace Aurore.')
+          : 'Aucun service n’est sélectionné. Revois les cartes et associe au moins un service.';
+        selectedServiceList.replaceChildren();
+        names.forEach(name => {
+          const pill = document.createElement('span');
+          pill.className = 'selected-service-pill';
+          pill.textContent = name;
+          selectedServiceList.appendChild(pill);
+        });
+        saveServicesButton.disabled = names.length === 0 || accountBusy;
+        saveServicesButton.textContent = names.length ? 'Enregistrer mes choix' : 'Choisis au moins un service';
+        clearPickerMessage();
+        return;
+      }
+      pickerDeck.hidden = false;
+      pickerSummary.hidden = true;
+      const service = AURORE_SERVICES[serviceCursor];
+      const alreadySelected = selectedServices.has(service.id);
+      pickerProgressLabel.textContent = 'Service ' + (serviceCursor + 1) + ' sur ' + AURORE_SERVICES.length;
+      pickerProgressFill.style.width = (((serviceCursor + 1) / AURORE_SERVICES.length) * 100) + '%';
+      pickerServiceNumber.textContent = service.category;
+      pickerServiceSymbol.textContent = service.symbol;
+      pickerServiceName.textContent = service.name;
+      pickerServiceDescription.textContent = service.description;
+      pickerCurrentState.textContent = alreadySelected ? 'Déjà dans ta sélection — glisse à gauche pour retirer' : 'Pas encore sélectionné';
+      pickerSkip.textContent = alreadySelected ? 'Retirer / passer' : 'Passer';
+      pickerAssociate.textContent = alreadySelected ? 'Conserver et continuer' : 'Associer et continuer';
+      clearPickerMessage();
+    }
+    function decideCurrentService(associate) {
+      if (serviceCursor >= AURORE_SERVICES.length) return;
+      const service = AURORE_SERVICES[serviceCursor];
+      if (associate) selectedServices.add(service.id);
+      else selectedServices.delete(service.id);
+      serviceCursor += 1;
+      renderServicePicker();
+    }
+    function showServiceHub() {
+      servicesStep.hidden = true;
+      authStep.hidden = true;
+      hubStep.hidden = false;
+      document.getElementById('dialog-title').textContent = 'Ton espace Aurore';
+      accountCopy.textContent = 'Tes préférences sont enregistrées. Tu peux maintenant choisir le service à ouvrir.';
+      hubServices.replaceChildren();
+      AURORE_SERVICES.filter(service => selectedServices.has(service.id)).forEach(service => {
+        const item = document.createElement('article');
+        item.className = 'hub-service';
+        const symbol = document.createElement('span');
+        symbol.className = 'hub-service-symbol';
+        symbol.textContent = service.symbol;
+        symbol.setAttribute('aria-hidden', 'true');
+        const copy = document.createElement('span');
+        copy.className = 'hub-service-copy';
+        const name = document.createElement('strong');
+        name.textContent = service.name;
+        const description = document.createElement('small');
+        description.textContent = service.description;
+        copy.append(name, description);
+        const link = document.createElement('a');
+        link.href = service.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'Ouvrir ↗';
+        link.setAttribute('aria-label', 'Ouvrir ' + service.name + ' dans un nouvel onglet');
+        item.append(symbol, copy, link);
+        hubServices.appendChild(item);
+      });
+    }
+    async function saveServicePreferences() {
+      if (accountBusy) return;
+      if (!activeAccessToken || !activeUser) {
+        setPickerMessage('La session a expiré. Reconnecte-toi pour enregistrer tes choix.', false);
+        return;
+      }
+      if (!selectedServices.size) {
+        setPickerMessage('Associe au moins un service avant d’enregistrer.', false);
+        return;
+      }
+      accountBusy = true;
+      saveServicesButton.disabled = true;
+      saveServicesButton.textContent = 'Enregistrement…';
+      clearPickerMessage();
+      try {
+        const previousMetadata = activeUser.user_metadata && typeof activeUser.user_metadata === 'object' ? activeUser.user_metadata : {};
+        const updated = await authRequest('/auth/v1/user', {
+          data: {
+            ...previousMetadata,
+            aurore_services_selection: AURORE_SERVICES.filter(service => selectedServices.has(service.id)).map(service => service.id),
+            aurore_services_selection_updated_at: new Date().toISOString(),
+            aurore_id_registration_version: 2
+          }
+        }, activeAccessToken, 'PUT');
+        if (updated.user) activeUser = updated.user;
+        else if (updated.id) activeUser = updated;
+        setPickerMessage('Tes préférences ont été enregistrées.', true);
+        showServiceHub();
+      } catch (error) {
+        setPickerMessage(authErrorMessage(error, false), false);
+        saveServicesButton.disabled = false;
+        saveServicesButton.textContent = 'Réessayer l’enregistrement';
+      } finally {
+        accountBusy = false;
+      }
+    }
+
     menuButton.addEventListener('click', function () {
       const open = navLinks.classList.toggle('is-open');
       menuButton.setAttribute('aria-expanded', String(open));
@@ -542,12 +800,13 @@
     document.querySelectorAll('[data-open-login]').forEach(function (button) {
       button.addEventListener('click', function () {
         if (typeof loginDialog.showModal === 'function') loginDialog.showModal();
-        window.setTimeout(() => accountEmail.focus(), 0);
+        window.setTimeout(() => {
+          if (!authStep.hidden) accountEmail.focus();
+        }, 0);
       });
     });
     document.getElementById('account-tab-signup').addEventListener('click', () => setAccountMode('signup'));
     document.getElementById('account-tab-login').addEventListener('click', () => setAccountMode('login'));
-    document.querySelectorAll('input[name="aurore-service"]').forEach(input => input.addEventListener('change', clearAccountMessage));
     document.getElementById('close-dialog').addEventListener('click', function () { loginDialog.close(); });
     loginDialog.addEventListener('click', function (event) { if (event.target === loginDialog) loginDialog.close(); });
 
@@ -566,7 +825,7 @@
         await authRequest(path, { email });
         setAccountMessage('Si cette adresse correspond à un compte, un lien de récupération va être envoyé. Vérifie ta boîte de réception et les courriers indésirables.', true);
       } catch (error) {
-        setAccountMessage(friendlyAuthError(error, false), false);
+        setAccountMessage(authErrorMessage(error, false), false);
       } finally {
         accountBusy = false;
         accountForgot.disabled = false;
@@ -578,58 +837,94 @@
       if (accountBusy) return;
       const email = accountEmail.value.trim();
       const password = accountPassword.value;
-      const services = selectedAuroreServices();
-      if (!services.length) {
-        setAccountMessage('Choisis au moins un espace Aurore à relier à ton compte.', false);
-        return;
-      }
-      if (accountMode === 'signup' && password !== accountPasswordConfirm.value) {
+      const creating = accountMode === 'signup';
+      if (creating && password !== accountPasswordConfirm.value) {
         setAccountMessage('Les deux mots de passe ne correspondent pas.', false);
         accountPasswordConfirm.focus();
         return;
       }
       accountBusy = true;
       accountSubmit.disabled = true;
-      accountSubmit.textContent = accountMode === 'signup' ? 'Création du compte…' : 'Vérification du compte…';
+      accountSubmit.textContent = creating ? 'Création du compte…' : 'Vérification du compte…';
       try {
-        if (accountMode === 'signup') {
-          const path = '/auth/v1/signup?redirect_to=' + encodeURIComponent(AURORE_HOME);
-          const result = await authRequest(path, {
+        if (creating) {
+          const result = await authRequest('/auth/v1/signup?redirect_to=' + encodeURIComponent(AURORE_HOME), {
             email,
             password,
-            data: {
-              aurore_services_selection: services,
-              aurore_id_registration_version: 1
-            }
+            data: { aurore_id_registration_version: 2 }
           });
           if (result.user && Array.isArray(result.user.identities) && result.user.identities.length === 0) {
             setAccountMessage('Un compte semble déjà exister avec cette adresse. Choisis « J’ai déjà un compte » pour continuer.', false);
           } else if (result.session && result.session.access_token && result.user) {
-            setAccountMessage('Ton compte Aurore ID est créé et tes choix d’espaces sont enregistrés. Les connexions SSO sont encore en cours de raccordement service par service ; tes comptes locaux et leurs données n’ont pas été fusionnés.', true);
+            showServicePicker(result.user, result.session.access_token);
           } else {
-            setAccountMessage('La demande de création est enregistrée. Ouvre le message de confirmation envoyé par e-mail pour activer ton compte. Tes choix d’espaces sont enregistrés avec la demande. La connexion unique sera activée service par service après vérification.', true);
+            setAccountMessage('La demande de création est enregistrée. Ouvre le message de confirmation envoyé par e-mail pour activer ton compte. Après confirmation, connecte-toi et tu pourras choisir tes services par glissement.', true);
           }
         } else {
           const result = await authRequest('/auth/v1/token?grant_type=password', { email, password });
           if (!result.access_token || !result.user) throw new Error('La réponse de connexion est incomplète.');
-          const existingData = result.user.user_metadata && typeof result.user.user_metadata === 'object' ? result.user.user_metadata : {};
-          await authRequest('/auth/v1/user', {
-            data: {
-              ...existingData,
-              aurore_services_selection: services,
-              aurore_services_selection_updated_at: new Date().toISOString()
-            }
-          }, result.access_token, 'PUT');
-          setAccountMessage('Identité Aurore ID vérifiée et choix enregistrés. Les connexions locales restent inchangées jusqu’à validation du SSO pour chaque service.', true);
+          showServicePicker(result.user, result.access_token);
         }
       } catch (error) {
-        setAccountMessage(friendlyAuthError(error, accountMode === 'signup'), false);
+        setAccountMessage(authErrorMessage(error, creating), false);
       } finally {
         accountBusy = false;
         accountSubmit.disabled = false;
-        accountSubmit.textContent = accountMode === 'signup' ? 'Créer mon compte central' : 'Se connecter et enregistrer mes choix';
+        accountSubmit.textContent = accountMode === 'signup' ? 'Créer mon compte central' : 'Se connecter';
       }
     });
+
+    pickerSkip.addEventListener('click', () => decideCurrentService(false));
+    pickerAssociate.addEventListener('click', () => decideCurrentService(true));
+    document.getElementById('picker-review').addEventListener('click', function () {
+      serviceCursor = 0;
+      pickerDeck.hidden = false;
+      pickerSummary.hidden = true;
+      renderServicePicker();
+    });
+    saveServicesButton.addEventListener('click', saveServicePreferences);
+    document.getElementById('edit-services').addEventListener('click', function () {
+      if (!activeUser || !activeAccessToken) return;
+      showServicePicker(activeUser, activeAccessToken);
+    });
+    document.getElementById('account-sign-out').addEventListener('click', function () {
+      activeAccessToken = '';
+      activeUser = null;
+      selectedServices = new Set();
+      accountPassword.value = '';
+      accountPasswordConfirm.value = '';
+      servicesStep.hidden = true;
+      hubStep.hidden = true;
+      authStep.hidden = false;
+      accountMode = 'login';
+      setAccountMode('login');
+      document.getElementById('dialog-title').textContent = 'Connecte-toi à Aurore ID';
+      accountCopy.textContent = 'Entre ton e-mail et ton mot de passe. Tu choisiras ensuite les services à associer à ton espace.';
+      accountEmail.focus();
+    });
+
+    pickerCard.addEventListener('pointerdown', function (event) {
+      swipeStartX = event.clientX;
+      pickerCard.dataset.swipe = '';
+    });
+    pickerCard.addEventListener('pointermove', function (event) {
+      if (swipeStartX === null) return;
+      const delta = event.clientX - swipeStartX;
+      pickerCard.dataset.swipe = delta > 35 ? 'right' : (delta < -35 ? 'left' : '');
+    });
+    pickerCard.addEventListener('pointerup', function (event) {
+      if (swipeStartX === null) return;
+      const delta = event.clientX - swipeStartX;
+      swipeStartX = null;
+      pickerCard.dataset.swipe = '';
+      if (delta > 65) decideCurrentService(true);
+      else if (delta < -65) decideCurrentService(false);
+    });
+    pickerCard.addEventListener('pointercancel', function () {
+      swipeStartX = null;
+      pickerCard.dataset.swipe = '';
+    });
+
     document.getElementById('copyright-year').textContent = new Date().getFullYear();
   </script>
 </body>
