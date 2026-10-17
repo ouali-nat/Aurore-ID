@@ -17,7 +17,7 @@ Le portail d’entrée de l’écosystème Aurore.
 
 Le site est prévu pour être servi comme un site statique à la racine du dépôt. L’URL Supabase et la clé publishable sont utilisées par le navigateur pour appeler l’API Auth ; aucun secret serveur ou clé `service_role` ne doit être présent dans le code public.
 
-Le fournisseur Supabase Auth doit garder la confirmation des adresses e-mail activée et autoriser l’URL de retour `https://aurore-id.vercel.app/`. La politique CSP et les en-têtes de sécurité restent définis dans `vercel.json`.
+Le fournisseur Supabase Auth doit garder la confirmation des adresses e-mail activée et autoriser `https://aurore-id.vercel.app/` dans Redirect URLs. Le code reprend l’origine courante pour le retour ; chaque URL de prévisualisation utilisée pour un essai doit donc être autorisée séparément dans Supabase. La politique CSP et les en-têtes de sécurité restent définis dans `vercel.json`.
 
 ## Limite actuelle
 
