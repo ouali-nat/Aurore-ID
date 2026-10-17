@@ -6,11 +6,13 @@
   const CANONICAL_ORIGIN = "https://aurore-id.vercel.app";
   const AUTHORIZATION_STORAGE_KEY = "aurore-id.oauth.authorization_id.v1";
 
-  // These are the only OAuth callbacks intended for the first rollout.
+  // Keep these exact callback URLs synchronized with the registered Aurore OAuth apps.
   // Match against exact registered URIs before displaying consent or redirecting.
   const ALLOWED_CALLBACKS = [
     "https://tdeotqfsbvouresfhkab.supabase.co/auth/v1/callback",
-    "https://fdstrbqvkemtjyxxaxbj.supabase.co/auth/v1/callback"
+    "https://fdstrbqvkemtjyxxaxbj.supabase.co/auth/v1/callback",
+    "https://iymioasfkithmyqtpipd.supabase.co/auth/v1/callback",
+    "https://lhrfsgqonclwqqvjxzht.supabase.co/auth/v1/callback"
   ];
 
   const $ = function (id) { return document.getElementById(id); };
