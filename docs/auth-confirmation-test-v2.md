@@ -2,6 +2,10 @@
 
 Ce scénario doit être testé sur la prévisualisation avant toute fusion vers la branche de production. Utiliser une adresse de test dont on contrôle la boîte de réception ; ne pas utiliser de compte existant important ni modifier les rôles locaux des services.
 
+## Préparation de l’environnement
+
+Avant l’essai sur une prévisualisation Vercel, ajouter son URL HTTPS exacte à la liste Supabase Auth **Redirect URLs**. Le code utilise l’origine courante afin que le lien de confirmation revienne sur la version testée ; une URL qui n’est pas autorisée peut être rejetée par Supabase. Pour l’usage normal, conserver aussi `https://aurore-id.vercel.app/` dans cette liste.
+
 ## Parcours d’inscription
 
 1. Ouvrir « Compte Aurore ID », choisir « Créer un compte », renseigner une adresse de test et un mot de passe d’au moins 8 caractères, puis confirmer le mot de passe.
