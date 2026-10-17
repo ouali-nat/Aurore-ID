@@ -268,28 +268,17 @@
     const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
     if (fragment.get("type") === "recovery") passwordRecoveryMode = true;
 
-    const sessionResult = await client.auth.getSession();
-    if (sessionResult.error) throw new Error("Impossible de vérifier la session Aurore ID. Recommencez la connexion.");
-
     if (passwordRecoveryMode) {
       showPasswordRecovery();
       return;
     }
 
-    const session = sessionResult.data && sessionResult.data.session;
-    if (!session) {
-      showLogin();
-      return;
-    }
-
-    const userResult = await client.auth.getUser();
-    const user = userResult.data && userResult.data.user;
-    if (userResult.error || !user) {
-      showLogin();
-      return;
-    }
-
-    await continueAuthenticatedUser(user);
+    // Security: a persisted Supabase session is not proof that the user
+    // authenticated for this authorization request. Never bypass the login
+    // form or consent screen merely because a session exists in storage.
+    // The submit handler below must call signInWithPassword successfully
+    // before we fetch the verified user and continue this request.
+    showLogin();
   }
 
   async function handleLogin() {
