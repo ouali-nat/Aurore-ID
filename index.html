@@ -552,7 +552,7 @@
       const creating = accountMode === 'signup';
       const selecting = accountMode === 'selection';
       const tabs = document.querySelector('.account-tabs');
-      tabs.style.display = selecting ? 'none' : 'grid';
+      tabs.style.display = selecting ? 'none' : 'flex';
       document.getElementById('account-tab-signup').setAttribute('aria-selected', String(creating));
       document.getElementById('account-tab-login').setAttribute('aria-selected', String(accountMode === 'login'));
       document.getElementById('dialog-title').textContent = selecting
@@ -598,6 +598,7 @@
     function friendlyAuthError(error, creating) {
       const message = String(error && (error.message || error.code) || '').toLowerCase();
       if (message.includes('invalid login credentials')) return 'Adresse e-mail ou mot de passe incorrect.';
+      if (message.includes('confirmation flow not completed')) return 'Le lien de confirmation doit être validé avant de choisir les services. Ouvre le message reçu et reviens par ce lien.';
       if (message.includes('email not confirmed')) return 'Confirme d’abord ton adresse e-mail avec le message reçu.';
       if (message.includes('already registered') || message.includes('already been registered')) return 'Un compte semble déjà exister avec cette adresse. Choisis « J’ai déjà un compte » pour te connecter.';
       if (message.includes('password should be at least') || message.includes('password is too short')) return 'Le mot de passe doit contenir au moins 8 caractères.';
@@ -695,12 +696,7 @@
           if (result.user && Array.isArray(result.user.identities) && result.user.identities.length === 0) {
             setAccountMessage('Un compte semble déjà exister avec cette adresse. Choisis « J’ai déjà un compte » pour te connecter.', false);
           } else if (result.session && result.session.access_token && result.user && isEmailConfirmed(result.user)) {
-            saveCentralSession(result.session);
-            centralUser = result.user;
-            accountEmail.value = result.user.email || email;
-            applySelectedServices([], true);
-            setAccountMode('selection');
-            setAccountMessage('Ton adresse est déjà confirmée par le service de compte. Choisis maintenant les espaces à associer.', true);
+            setAccountMessage('La création a renvoyé une session immédiatement : le parcours de confirmation obligatoire doit être vérifié dans les réglages Supabase Auth. Aucun service n’a été associé à ce compte. Active « Confirm email » avant les essais.', false);
           } else {
             setAccountMessage('Compte créé : ouvre le lien de confirmation envoyé par e-mail. Après confirmation, Aurore ID affichera le formulaire de choix des services. Les choix ne sont pas encore associés.', true);
           }
@@ -711,10 +707,13 @@
           const result = await authRequest('/auth/v1/token?grant_type=password', { email, password });
           if (!result.access_token || !result.user) throw new Error('La réponse de connexion est incomplète.');
           if (!isEmailConfirmed(result.user)) throw new Error('Email not confirmed');
+          const metadata = result.user.user_metadata && typeof result.user.user_metadata === 'object' ? result.user.user_metadata : {};
+          if (Number(metadata.aurore_id_registration_version || 0) >= 2 && !metadata.aurore_id_confirmation_flow_verified_at) {
+            throw new Error('Confirmation flow not completed');
+          }
           saveCentralSession(result);
           centralUser = result.user;
           accountEmail.value = result.user.email || email;
-          const metadata = result.user.user_metadata && typeof result.user.user_metadata === 'object' ? result.user.user_metadata : {};
           const savedServices = Array.isArray(metadata.aurore_services_selection) ? metadata.aurore_services_selection : [];
           applySelectedServices(savedServices, true);
           setAccountMode('selection');
@@ -756,6 +755,22 @@
         window.history.replaceState({}, document.title, window.location.pathname);
         accountEmail.value = user.email;
         const metadata = user.user_metadata && typeof user.user_metadata === 'object' ? user.user_metadata : {};
+        const confirmationVerifiedAt = new Date().toISOString();
+        await authRequest('/auth/v1/user', {
+          data: {
+            ...metadata,
+            aurore_id_registration_version: Math.max(2, Number(metadata.aurore_id_registration_version || 0)),
+            aurore_id_confirmation_flow_verified_at: confirmationVerifiedAt
+          }
+        }, accessToken, 'PUT');
+        centralUser = {
+          ...user,
+          user_metadata: {
+            ...metadata,
+            aurore_id_registration_version: Math.max(2, Number(metadata.aurore_id_registration_version || 0)),
+            aurore_id_confirmation_flow_verified_at: confirmationVerifiedAt
+          }
+        };
         applySelectedServices(Array.isArray(metadata.aurore_services_selection) ? metadata.aurore_services_selection : [], true);
         setAccountMode('selection');
         if (typeof loginDialog.showModal === 'function') loginDialog.showModal();
@@ -785,6 +800,10 @@
         }
         const user = await loadCentralUser(currentAccessToken());
         const metadata = user.user_metadata && typeof user.user_metadata === 'object' ? user.user_metadata : {};
+        if (Number(metadata.aurore_id_registration_version || 0) >= 2 && !metadata.aurore_id_confirmation_flow_verified_at) {
+          clearCentralSession();
+          return;
+        }
         applySelectedServices(Array.isArray(metadata.aurore_services_selection) ? metadata.aurore_services_selection : [], true);
       } catch (_) {
         clearCentralSession();
