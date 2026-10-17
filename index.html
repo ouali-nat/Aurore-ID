@@ -566,6 +566,8 @@
       accountEmailWrap.classList.toggle('is-hidden', selecting);
       accountPasswordWrap.classList.toggle('is-hidden', selecting);
       accountEmail.readOnly = selecting;
+      accountEmail.required = !selecting;
+      accountPassword.required = !selecting;
       accountPassword.autocomplete = creating ? 'new-password' : 'current-password';
       accountPassword.minLength = creating ? 8 : 1;
       accountConfirmWrap.classList.toggle('is-hidden', !creating);
