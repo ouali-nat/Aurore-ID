@@ -268,28 +268,15 @@
     const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
     if (fragment.get("type") === "recovery") passwordRecoveryMode = true;
 
-    const sessionResult = await client.auth.getSession();
-    if (sessionResult.error) throw new Error("Impossible de vérifier la session Aurore ID. Recommencez la connexion.");
-
     if (passwordRecoveryMode) {
       showPasswordRecovery();
       return;
     }
 
-    const session = sessionResult.data && sessionResult.data.session;
-    if (!session) {
-      showLogin();
-      return;
-    }
-
-    const userResult = await client.auth.getUser();
-    const user = userResult.data && userResult.data.user;
-    if (userResult.error || !user) {
-      showLogin();
-      return;
-    }
-
-    await continueAuthenticatedUser(user);
+    // Security: an existing persisted session is not proof of fresh
+    // authentication for this authorization request. Always require the
+    // user to submit credentials successfully before continuing to consent.
+    showLogin();
   }
 
   async function handleLogin() {
