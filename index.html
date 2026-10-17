@@ -450,8 +450,8 @@
   <script>
     const AURORE_AUTH_URL = "https://woyzakzpqtzwjiyysuum.supabase.co";
     const AURORE_AUTH_KEY = "sb_publishable_QAwjkgFLLx1v6DkESJ-d6g_GHHCQiUm";
-    const AURORE_HOME = "https://aurore-id.vercel.app/";
-    const AURORE_RECOVERY_REDIRECT = "https://aurore-id.vercel.app/oauth/consent/";
+    const AURORE_HOME = window.location.origin + "/";
+    const AURORE_RECOVERY_REDIRECT = window.location.origin + "/oauth/consent/";
     const menuButton = document.querySelector('.menu-toggle');
     const navLinks = document.getElementById('nav-links');
     const loginDialog = document.getElementById('login-dialog');
