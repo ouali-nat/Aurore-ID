@@ -12,7 +12,8 @@
     "https://tdeotqfsbvouresfhkab.supabase.co/auth/v1/callback",
     "https://fdstrbqvkemtjyxxaxbj.supabase.co/auth/v1/callback",
     "https://iymioasfkithmyqtpipd.supabase.co/auth/v1/callback",
-    "https://lhrfsgqonclwqqvjxzht.supabase.co/auth/v1/callback"
+    "https://lhrfsgqonclwqqvjxzht.supabase.co/auth/v1/callback",
+    "https://oegxxndiuovisustjstp.supabase.co/auth/v1/callback"
   ];
 
   const $ = function (id) { return document.getElementById(id); };
@@ -258,10 +259,11 @@
       }
     });
 
-    client.auth.onAuthStateChange(function (event) {
+    client.auth.onAuthStateChange(function (event, session) {
       if (event === "PASSWORD_RECOVERY") {
         passwordRecoveryMode = true;
-        showPasswordRecovery();
+        // Only expose the password form when Supabase has a recovery session.
+        if (session) showPasswordRecovery();
       }
     });
 
@@ -269,7 +271,17 @@
     if (fragment.get("type") === "recovery") passwordRecoveryMode = true;
 
     if (passwordRecoveryMode) {
-      showPasswordRecovery();
+      // Supabase may show a recovery fragment even when its token is expired or
+      // malformed. Verify that the SDK actually established a session first.
+      const sessionResult = await client.auth.getSession();
+      if (sessionResult.error) throw sessionResult.error;
+      if (sessionResult.data && sessionResult.data.session) {
+        showPasswordRecovery();
+      } else {
+        passwordRecoveryMode = false;
+        showRecoveryRequest();
+        setNotice("Ce lien de récupération est expiré ou incomplet. Demandez un nouveau lien pour choisir un mot de passe.", false);
+      }
       return;
     }
 
@@ -373,6 +385,14 @@
     clearNotice();
     setBusy(true);
     try {
+      const sessionResult = await client.auth.getSession();
+      if (sessionResult.error) throw sessionResult.error;
+      if (!sessionResult.data || !sessionResult.data.session) {
+        passwordRecoveryMode = false;
+        showRecoveryRequest();
+        setNotice("Votre lien de récupération n’est plus valide. Demandez un nouveau lien avant de choisir un mot de passe.", false);
+        return;
+      }
       const result = await client.auth.updateUser({ password: password });
       if (result.error) throw result.error;
       await client.auth.signOut();
@@ -381,7 +401,14 @@
       showLogin();
       setNotice("Mot de passe mis à jour. Vous pouvez maintenant vous connecter à Aurore ID.", true);
     } catch (error) {
-      setNotice(authErrorMessage(error, false));
+      const raw = String(error && (error.message || error.code) || "").toLowerCase();
+      if (raw.includes("session missing") || raw.includes("session_not_found") || raw.includes("jwt expired") || raw.includes("invalid refresh token") || raw.includes("refresh token not found")) {
+        passwordRecoveryMode = false;
+        showRecoveryRequest();
+        setNotice("Le lien de récupération a expiré ou n’a pas établi de session. Demandez un nouveau lien et ouvrez-le directement sur cet appareil.", false);
+      } else {
+        setNotice(authErrorMessage(error, false));
+      }
     } finally {
       setBusy(false);
     }
