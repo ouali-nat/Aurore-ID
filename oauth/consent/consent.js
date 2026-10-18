@@ -244,7 +244,10 @@
     }
 
     authorizationId = loadAuthorizationId();
-    if (!authorizationId || authorizationId.length > 2048) {
+    const initialFragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const initialQuery = new URLSearchParams(window.location.search);
+    const recoveryCallback = initialFragment.get("type") === "recovery" || initialQuery.get("type") === "recovery";
+    if ((!authorizationId || authorizationId.length > 2048) && !recoveryCallback) {
       throw new Error("Aucune demande de connexion valide n’a été trouvée. Revenez au service Aurore que vous souhaitez ouvrir.");
     }
 
@@ -268,7 +271,8 @@
     });
 
     const fragment = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-    if (fragment.get("type") === "recovery") passwordRecoveryMode = true;
+    const query = new URLSearchParams(window.location.search);
+    if (fragment.get("type") === "recovery" || query.get("type") === "recovery") passwordRecoveryMode = true;
 
     if (passwordRecoveryMode) {
       // Supabase may show a recovery fragment even when its token is expired or
@@ -283,6 +287,10 @@
         setNotice("Ce lien de récupération est expiré ou incomplet. Demandez un nouveau lien pour choisir un mot de passe.", false);
       }
       return;
+    }
+
+    if (!authorizationId || authorizationId.length > 2048) {
+      throw new Error("Aucune demande de connexion valide n’a été trouvée. Revenez au service Aurore que vous souhaitez ouvrir.");
     }
 
     // Security: an existing persisted session is not proof of fresh
@@ -349,7 +357,7 @@
   }
 
   async function handleRecoveryRequest() {
-    if (busy || !client || !authorizationId) return;
+    if (busy || !client) return;
     const email = String($("recovery-email").value || "").trim();
     if (!email) {
       setNotice("Saisissez l’adresse e-mail associée à votre compte.");
@@ -359,7 +367,9 @@
     setBusy(true);
     try {
       const result = await client.auth.resetPasswordForEmail(email, {
-        redirectTo: consentUrl(authorizationId)
+        // A password reset can start from the Aurore ID home page (without an
+        // OAuth authorization_id) or from a service-specific consent request.
+        redirectTo: authorizationId ? consentUrl(authorizationId) : CANONICAL_ORIGIN + "/oauth/consent/"
       });
       if (result.error) throw result.error;
       setNotice("Si un compte correspond à cette adresse, un e-mail de récupération va être envoyé. Consultez aussi vos courriers indésirables.", true);
