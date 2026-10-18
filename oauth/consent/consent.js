@@ -138,6 +138,7 @@
     if (message.includes("invalid login credentials")) return "Adresse e-mail ou mot de passe incorrect.";
     if (message.includes("email not confirmed")) return "Confirmez d’abord votre adresse e-mail grâce au message reçu.";
     if (message.includes("user already registered") || message.includes("already been registered")) return "Un compte existe déjà avec cette adresse. Connectez-vous plutôt que de créer un nouveau compte.";
+    if (message.includes("new password should be different from the old password") || message.includes("same_password")) return "Ce mot de passe est déjà celui de votre compte. Sa modification n’était pas nécessaire : vous pouvez vous connecter avec ce mot de passe.";
     if (message.includes("password should be at least") || message.includes("password is too short")) return "Le mot de passe doit contenir au moins 8 caractères.";
     if (message.includes("email rate limit") || message.includes("too many requests")) return "Trop de demandes ont été envoyées. Attendez quelques minutes avant de réessayer.";
     if (message.includes("network") || message.includes("fetch")) return "Connexion au service indisponible. Vérifiez votre réseau et réessayez.";
@@ -332,6 +333,10 @@
       if (userResult.error || !user) {
         throw new Error("Le compte a été reconnu, mais la session n’a pas pu être vérifiée. Recommencez la connexion.");
       }
+      // Give the user an explicit, visible confirmation before the OAuth flow
+      // continues or redirects back to the requesting Aurore service.
+      setNotice("Connexion réussie. Votre identité Aurore ID est vérifiée ; ouverture du service…", true);
+      await new Promise(function (resolve) { setTimeout(resolve, 900); });
       await continueAuthenticatedUser(user);
     } catch (error) {
       setNotice(authErrorMessage(error, authMode === "signup"));
