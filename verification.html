@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101729">
+<meta name="description" content="Vérifiez le statut d’un identifiant de certification Aurore dans le registre central.">
+<title>Vérifier un certificat — Aurore ID</title>
+<style>
+:root{color-scheme:light;--ink:#172033;--muted:#697387;--paper:#f7f8fc;--navy:#101729;--line:rgba(23,32,51,.11);--mint:#dff7c8;--lilac:#c9bdff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 85% 0%,#e6e2ff 0,transparent 38%),var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}.wrap{width:min(100% - 36px,920px);margin:auto}.top{height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.04em}.mark{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:var(--navy);color:var(--mint);font-size:20px}.back{font-size:12px;color:var(--muted);font-weight:700}
+main{padding:clamp(38px,8vw,82px) 0 70px}.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#637c4d;font-size:10px;letter-spacing:.16em;font-weight:850;text-transform:uppercase}.dot{width:7px;height:7px;border-radius:50%;background:#83ad66;box-shadow:0 0 0 5px #83ad661c}h1{font-size:clamp(36px,7vw,62px);letter-spacing:-.075em;line-height:1;margin:19px 0 18px;max-width:700px}.intro{max-width:630px;color:var(--muted);font-size:15px;line-height:1.8;margin:0 0 30px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:26px;padding:clamp(20px,4vw,34px);box-shadow:0 18px 54px #1a23380c}.field-label{display:block;font-size:12px;font-weight:800;margin-bottom:9px}.searchrow{display:flex;gap:10px}.searchrow input{min-width:0;flex:1;height:54px;border:1px solid #dfe3ed;border-radius:14px;padding:0 15px;font:inherit;font-size:14px;color:var(--ink);background:#fff}.searchrow input:focus{outline:3px solid #c9bdff77;border-color:#8d83d6}.searchrow button{border:0;border-radius:14px;padding:0 20px;background:var(--navy);color:#fff;font:inherit;font-size:13px;font-weight:800;cursor:pointer}.hint{font-size:11px;color:var(--muted);line-height:1.6;margin:12px 0 0}.result{margin-top:18px}.result:empty{display:none}.message{padding:15px;border-radius:15px;background:#f2f3f8;color:#626b7e;font-size:13px;line-height:1.7}.message.error{background:#fff0ed;color:#9d3c2e}.record{border:1px solid var(--line);border-radius:20px;overflow:hidden}.record-head{display:flex;align-items:flex-start;gap:14px;padding:19px;background:#f5f8f1}.seal{width:43px;height:43px;display:grid;place-items:center;flex:0 0 43px;border-radius:14px;background:var(--navy);color:var(--mint);font-size:20px}.record-head h2{font-size:18px;letter-spacing:-.035em;margin:2px 0 6px}.record-head p{font-size:12px;color:var(--muted);margin:0;line-height:1.5}.status{display:inline-flex;margin-top:8px;border-radius:999px;background:#e7e9ef;color:#454d60;padding:6px 9px;font-size:10px;font-weight:850}.status.verified{background:#e7f4dc;color:#355e2b}.status.revoked,.status.withdrawn{background:#ffebe8;color:#983d32}.details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 20px;padding:8px 19px 17px}.item{padding:13px 0;border-bottom:1px solid var(--line);min-width:0}.item small{display:block;color:var(--muted);font-size:10px;margin-bottom:5px}.item strong{display:block;font-size:13px;overflow-wrap:anywhere;line-height:1.5}.fineprint{font-size:11px;color:var(--muted);line-height:1.7;margin:17px 2px 0}.footer{padding:23px 0 32px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}.footerinner{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+@media(max-width:560px){.top{height:66px}.back{font-size:11px}.searchrow{flex-direction:column}.searchrow button{height:50px}.details{grid-template-columns:1fr}.record-head{padding:16px}}
+</style>
+</head>
+<body>
+<header class="wrap top"><a class="brand" href="/"><span class="mark" aria-hidden="true">a.</span><span>Aurore ID</span></a><a class="back" href="/">Retour à Aurore ID ↗</a></header>
+<main class="wrap">
+<div class="eyebrow"><span class="dot"></span> Registre Aurore · consultation publique</div>
+<h1>Vérifier une certification.</h1>
+<p class="intro">Saisissez le numéro figurant sur une carte ou un document Aurore. Le registre indique ce qui est enregistré et le statut actuel — sans confondre un identifiant avec une certification validée.</p>
+<section class="panel" aria-labelledby="verify-label">
+<label class="field-label" id="verify-label" for="certificate-code">Numéro du certificat Aurore</label>
+<form id="verify-form" class="searchrow"><input id="certificate-code" name="code" type="text" inputmode="text" autocomplete="off" maxlength="48" placeholder="Ex. : AUR-MEM-76804B37BAEC46AE" required><button id="verify-button" type="submit">Vérifier le numéro</button></form>
+<p class="hint">Les numéros sont insensibles aux minuscules/majuscules et aux espaces. Aucun mot de passe n’est demandé.</p>
+<div class="result" id="verify-result" role="status" aria-live="polite"></div>
+</section>
+<p class="fineprint">Un résultat « identifiant enregistré » confirme uniquement la présence de la référence dans le registre. « Provenance vérifiée » et « Certifié Aurore » sont des statuts distincts. La certification ne garantit pas à elle seule l’exactitude scientifique ou l’absence de litige sur les droits.</p>
+</main>
+<footer class="footer"><div class="wrap footerinner"><span>© <span id="year"></span> Aurore · Registre de provenance</span><span>Une référence, un historique, un statut explicite.</span></div></footer>
+<script>
+(function(){
+  const endpoint='https://woyzakzpqtzwjiyysuum.supabase.co/functions/v1/aurore-certificate-verify';
+  const form=document.getElementById('verify-form'),input=document.getElementById('certificate-code'),button=document.getElementById('verify-button'),result=document.getElementById('verify-result');
+  document.getElementById('year').textContent=new Date().getFullYear();
+  function node(tag,cls,text){const el=document.createElement(tag);if(cls)el.className=cls;if(text!==undefined)el.textContent=String(text);return el}
+  function showMessage(text,error){result.replaceChildren(node('div','message'+(error?' error':''),text))}
+  function addItem(parent,label,value){const item=node('div','item');item.append(node('small','',label),node('strong','',value||'Non renseigné'));parent.append(item)}
+  function render(data,code){
+    result.replaceChildren();
+    if(!data.found){showMessage('Aucun certificat ne correspond à '+code+'. Vérifiez la saisie ou le lien d’origine.',false);return}
+    const c=data.certificate||{},record=node('article','record'),head=node('div','record-head'),seal=node('div','seal','✓'),copy=node('div',''),title=node('h2','',c.certificate_code||code),sub=node('p','',c.resource_title||c.series_name||'Ressource Aurore');
+    copy.append(title,sub,node('span','status '+(['certified','provenance_verified'].includes(c.status)?'verified':(['revoked','withdrawn'].includes(c.status)?c.status:'')),data.statusLabel||c.status||'Statut inconnu'));
+    head.append(seal,copy);record.append(head);
+    const details=node('div','details');
+    addItem(details,'Service Aurore',c.service_code);addItem(details,'Type de ressource',c.resource_type);addItem(details,'Auteur déclaré',c.author_name);addItem(details,'Domaine',c.domain);addItem(details,'Version enregistrée',c.resource_version);addItem(details,'Date d’enregistrement',c.issued_at?new Date(c.issued_at).toLocaleDateString('fr-FR'):'Non renseignée');addItem(details,'Dernière vérification',c.verified_at?new Date(c.verified_at).toLocaleDateString('fr-FR'):'Aucune vérification enregistrée');addItem(details,'Empreinte de contenu (partielle)',c.fingerprint||'Pas encore calculée');
+    record.append(details);
+    const note=node('p','fineprint',data.valid?'Ce statut est renvoyé par le registre central Aurore.':'Cette référence est enregistrée, mais elle ne dispose pas actuellement d’un statut de vérification/certification positif.');
+    result.append(record,note);
+  }
+  async function verify(code,updateUrl){
+    code=String(code||'').trim().toUpperCase().replace(/\s+/g,'');
+    if(!code){showMessage('Saisissez un numéro de certificat pour commencer.',true);return}
+    button.disabled=true;button.textContent='Vérification…';showMessage('Interrogation du registre Aurore…',false);
+    try{
+      const response=await fetch(endpoint+'?code='+encodeURIComponent(code),{headers:{'Accept':'application/json'},cache:'no-store'});
+      const data=await response.json();
+      if(!response.ok||!data.ok)throw new Error(data.message||'Le registre est temporairement indisponible.');
+      if(updateUrl){const url=new URL(window.location.href);url.searchParams.set('code',code);history.replaceState(null,'',url)}
+      render(data,code);
+    }catch(error){showMessage(error.message||'Impossible de joindre le registre. Réessayez.',true)}
+    finally{button.disabled=false;button.textContent='Vérifier le numéro'}
+  }
+  form.addEventListener('submit',function(event){event.preventDefault();verify(input.value,true)});
+  const initial=new URLSearchParams(location.search).get('code');if(initial){input.value=initial;verify(initial,false)}
+})();
+</script>
+</body>
+</html>
